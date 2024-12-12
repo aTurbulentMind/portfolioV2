@@ -107,7 +107,7 @@
 				<label for="message">Message</label>
 				<textarea id="message" name="message" placeholder="Enter your message" required></textarea>
 
-				<button class="button-Skew" type="submit">Submit</button>
+				<button class="ripple-btn" type="submit">Submit</button>
 			</form>
 		{:else}
 			<p class="glass-Box">Thank you for the message! I will get back to you as soon as I can.</p>
@@ -116,21 +116,31 @@
 </header>
 
 <section>
-	<h2>I'm here to help</h2>
+	<h2>Your Partner in Making a Difference</h2>
 	<p>
-		There can be an overwhelming amount of choices when it comes to web development. I'm here to
-		help. I am not here to turn out your pockets and take everything you have. Thats gross. I have
-		always had nothing, so I am not here for your money. I am here to help you with what you need.
+		There are so many options when it comes to web development, and it can feel overwhelming. I'm
+		here to make it easier. I’m not here to empty your budget—I believe in offering fair, accessible
+		help to those who need it most. My goal is simple: to give you the tools you need to succeed, no
+		matter your starting point.
 	</p>
-	<a href="/contact/" class="button-Ghost">Reach out </a>
+	<a href="/contact/" class="button-Ghost">Reach out</a>
 </section>
 
 <section class="glass-Box-2">
 	<h2>About Me</h2>
 	<p>
-		I have built websites and studied web development for more than six years. For the last few
-		years I have been working at a software company which led to learning how to build full stack
-		websites. I need to put my effort to use and help people the way I can.
+		I’ve spent over six years studying and building websites, including a few years working at a
+		software company where I learned the ins and outs of full-stack web development. Now, I’m
+		focused on putting my skills to work for people who want to make a difference. Nonprofits and
+		mission-driven organizations inspire me, and I want to support their work in any way I can.
+	</p>
+</section>
+
+<section>
+	<h2>Why would I do this?</h2>
+	<p>
+		I believe in helping people who are working to create a better world. Nonprofits often operate
+		on tight budgets and big dreams—I’m here to be a partner in making those dreams achievable.
 	</p>
 </section>
 
