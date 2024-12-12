@@ -12,6 +12,8 @@
     --accent-1: oklch(65% 0.18 95); /* Gold */
     --accent-2:  oklch(40% 0.2 305); /* Purple*/
 
+    --error:oklch(70% 0.4 333); /* Pink bright  */
+
     --gradient: linear-gradient(to bottom,var(--bg-1), var(--bg-1),  color-mix(in srgb, var(--bg-1) 90%, var(--accent-1) 10%),var(--accent-1));
     --gradientFlip:linear-gradient(0deg,var(--bg-1), var(--bg-1),  color-mix(in srgb, var(--bg-1) 90%, var(--accent-1) 10%),var(--accent-1));
 
