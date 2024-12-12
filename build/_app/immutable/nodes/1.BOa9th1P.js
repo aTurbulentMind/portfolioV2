@@ -1,1 +1,0 @@
-import{f as e,s as r,a as i,t as n}from"../chunks/disclose-version.BcNZmKmL.js";var s=n('<h1>Error 404 something caught on fire!</h1> <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ/">Dont click this link.</a>',1);function c(a){var t=s(),o=e(t);r(r(o,!0)),i(a,t)}export{c as component};
