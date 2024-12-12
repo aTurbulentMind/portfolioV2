@@ -32,6 +32,24 @@
 	<nav class:open={isMenuOpen}>
 		<ul>
 			<li>
+				<button
+					class="dropdown-toggle"
+					on:click|preventDefault={() => (isDropdownOpen = !isDropdownOpen)}
+					aria-expanded={isDropdownOpen}
+					aria-haspopup="true"
+				>
+					Themes
+				</button>
+				{#if isDropdownOpen}
+					<ul class="dropdown">
+						<li><a href={'#'} on:click={() => setTheme('light')}>Light</a></li>
+						<li><a href={'#'} on:click={() => setTheme('dark')}>dark</a></li>
+						<li><a href={'#'} on:click={() => setTheme('headache')}>headache</a></li>
+						<li><a href={'#'} on:click={() => setTheme('colorBlind')}>color blind</a></li>
+					</ul>
+				{/if}
+			</li>
+			<li>
 				<button on:click={() => (isMenuOpen = false)} on:keydown={() => (isMenuOpen = false)}>
 					<a class:current={current === 0} on:click={() => (current = 0)} href="/services/"
 						>Services</a
@@ -56,24 +74,7 @@
 					>
 				</button>
 			</li>
-			<li>
-				<button
-					class="dropdown-toggle"
-					on:click|preventDefault={() => (isDropdownOpen = !isDropdownOpen)}
-					aria-expanded={isDropdownOpen}
-					aria-haspopup="true"
-				>
-					Themes
-				</button>
-				{#if isDropdownOpen}
-					<ul class="dropdown">
-						<li><a href={'#'} on:click={() => setTheme('light')}>Light</a></li>
-						<li><a href={'#'} on:click={() => setTheme('dark')}>dark</a></li>
-						<li><a href={'#'} on:click={() => setTheme('headache')}>headache</a></li>
-						<li><a href={'#'} on:click={() => setTheme('colorBlind')}>color blind</a></li>
-					</ul>
-				{/if}
-			</li>
+
 			<li>
 				<button on:click={() => (isMenuOpen = false)} on:keydown={() => (isMenuOpen = false)}>
 					<a class:current={current === 4} on:click={() => (current = 4)} href="/">Home</a>
@@ -121,7 +122,7 @@
 
 	.navbar ul {
 		display: flex;
-		flex-direction: column;
+		flex-direction: column-reverse;
 		justify-content: space-between;
 		align-items: center;
 		gap: var(--size-4);
@@ -228,6 +229,16 @@
 			& li {
 				padding: var(--size-4);
 			}
+		}
+
+		.dropdown {
+			position: absolute;
+			top: 100%;
+			left: 0;
+			background-color: var(--bg-1);
+			border: var(--bord);
+			box-shadow: var(--box-Shadow);
+			text-transform: capitalize;
 		}
 	}
 </style>
