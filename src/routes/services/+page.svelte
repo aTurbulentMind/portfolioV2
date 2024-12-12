@@ -1,92 +1,76 @@
 <div class=" head_Line">
 	<h1>Services:</h1>
 </div>
+<section>
+	<h2>Pricing Tiers</h2>
+	<p>
+		Every project is unique, and pricing varies based on scope and complexity. My goal is to deliver
+		exceptional results while keeping costs fair and transparent.
+	</p>
 
-<p>
-	The price of the product varies between the scope of the project. I'm an economic human and always
-	attempt to give people the best product I can to exceed expectations.
-</p>
+	<div class="price-box">
+		<div class="tier">
+			<h3>Simple</h3>
+			<p>
+				Perfect for those who know exactly what they need. You provide the vision, including the
+				color scheme, features, and design preferences, and I bring it to life with a static or
+				lightly functional website.
+			</p>
+		</div>
 
-<priceBox>
-	<offer>
-		<h2>Simple</h2>
-		<p>
-			You know what you want, the color scheme you prefer, the features you would like and the site
-			is static or has very light functionality.
-		</p>
-	</offer>
+		<div class="tier">
+			<h3>Moderate</h3>
+			<p>
+				Ideal if you have a general idea but need some guidance to shape your vision. Together,
+				we’ll refine your ideas into a cohesive, functional website.
+			</p>
+		</div>
 
-	<offer>
-		<h2>Moderate</h2>
-		<p>
-			You have an idea of your plan and general idea, but not quite sure of what you want and need a
-			bit of guidance.
-		</p>
-	</offer>
+		<div class="tier">
+			<h3>"I’ll Handle It"</h3>
+			<p>
+				For when you have a jumble of brilliant ideas but need someone to make them happen. We’ll
+				collaborate to turn your concepts into a polished, professional site.
+			</p>
+		</div>
+	</div>
+</section>
 
-	<offer>
-		<h2>I'll handle it.</h2>
-		<p>
-			You want to get a site up and running, but not sure how to put the jumble of brilliant ideas
-			together or make it happen. We can talk our way through it as a team.
-		</p>
-	</offer>
-</priceBox>
-
-<h2>Production Steps</h2>
-
-<ul class="steps">
-	<li>
-		Planning
-		<p>
-			We can talk our way through it as a team. We will work our way through building the idea of
-			your website
-		</p>
-	</li>
-	<li>
-		Design
-		<p>
-			The color, layout, and design of your website will be created after deep consideration to how
-			you want to be expressed.
-		</p>
-	</li>
-	<li>
-		Development
-		<p>
-			This is the phase of building your website from nothing. We want everything to be as you want
-			it.
-		</p>
-	</li>
-	<li>
-		Testing
-		<p>
-			This is where we will begin to test across different screens, platforms and browsers to make
-			sure everything is crisp, pixel perfect and as bug free as possible.
-		</p>
-	</li>
-	<li>
-		Deployment
-		<p>
-			This is where DR Frankenstein screams about the creation coming to life. Your site will become
-			a living thing at this point.
-		</p>
-	</li>
-	<li>
-		Support
-		<p>
-			Support will continue for free for the first year for anything that comes up that we did not
-			think of. Not sure it would be possible to think of everything at once. Amazon did not become
-			the giant it is without fine tuning
-		</p>
-	</li>
-	<li>
-		Management
-		<p>
-			We can take it a step further than simple and start tracking and managing data to get an even
-			deeper connection to those who find their way to your space.
-		</p>
-	</li>
-</ul>
+<section>
+	<h2>How It Works</h2>
+	<p>
+		I follow a structured process to ensure your project is completed efficiently and to the highest
+		standard. Here's what to expect:
+	</p>
+	<ul class="steps">
+		<li>
+			<strong>Planning:</strong> We’ll discuss your goals, brainstorm ideas, and create a clear plan
+			for your website.
+		</li>
+		<li>
+			<strong>Design:</strong> I’ll craft a layout, color palette, and design that reflect your brand
+			and message.
+		</li>
+		<li>
+			<strong>Development:</strong> Your website will be built from the ground up, tailored to your specifications.
+		</li>
+		<li>
+			<strong>Testing:</strong> Every detail will be tested across different devices and browsers to
+			ensure it works seamlessly.
+		</li>
+		<li>
+			<strong>Deployment:</strong> Your website goes live and is ready to make an impact!
+		</li>
+		<li>
+			<strong>Support:</strong> Enjoy free support for the first year to address any unforeseen issues
+			or updates.
+		</li>
+		<li>
+			<strong>Management:</strong> Take it further with advanced features like analytics, tracking, and
+			audience engagement tools.
+		</li>
+	</ul>
+</section>
 
 <!--svelte-ignore css-unused-selector -->
 <style>
@@ -107,7 +91,7 @@
 		margin: var(--space-Qtr);
 		& li {
 			background-color: var(--accent-1);
-			color: var(--txt-2);
+			color: var(--bg-1);
 			border: var(--bord);
 			border-radius: var(--rad-Lg);
 			padding: var(--size-5);
