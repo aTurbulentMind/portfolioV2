@@ -20,9 +20,9 @@
 </p>
 
 <p>
-	I do spend some time with fun things like going to concerts or playing video games. To get away
-	and reset the brain. Hiking and backpacking is another nice escape from being immersed in
-	technology. There is something magic living in the wild serenity of the Pacific Northwest.
+	I do spend some time with fun things like going to concerts or playing video games or working in
+	the yard, to get away and reset the brain. Hiking, walking the dog and backpacking is another nice
+	escape from being immersed in technology.
 </p>
 
 <img src={Nature1} alt="a sunny day on top of a mountain at a lake. It is serene" />
