@@ -1,35 +1,42 @@
+<!-- src/routes/+layout.svelte -->
 <script lang="ts">
-	import '$lib/styles/baseCamp.svelte';
-	import Nav from '$lib/Nav.svelte';
-	import Footer from '$lib/Footer.svelte';
+	import '$lib/style/baseCamp.svelte'
+	import Header from '$lib/Nav.svelte'
+	import Footer from '$lib/Footer.svelte'
 
-	import { invalidate } from '$app/navigation';
-	import { onMount } from 'svelte';
+	import { invalidate } from '$app/navigation'
+	import { onMount } from 'svelte'
 
 	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
 
-	export let data;
+	export let data
 
-	let { supabase, session } = data;
-	$: ({ supabase, session } = data);
+	let { supabase, session } = data
+	$: ({ supabase, session } = data)
 
 	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
 
 	onMount(() => {
 		const { data } = supabase.auth.onAuthStateChange((event, newSession) => {
 			if (newSession?.expires_at !== session?.expires_at) {
-				invalidate('supabase:auth');
+				invalidate('supabase:auth')
 			}
-		});
+		})
 
-		return () => data.subscription.unsubscribe();
-	});
+		return () => data.subscription.unsubscribe()
+	})
 </script>
 
-<Nav />
+<svelte:head>
+	<title>West Sound Roller Derby</title>
+</svelte:head>
+
+<Header />
+
 <slot />
 
-<Footer />
+<!-- <Footer /> -->
 
 <!--svelte-ignore css-unused-selector -->
-<style></style>
+<style>
+</style>

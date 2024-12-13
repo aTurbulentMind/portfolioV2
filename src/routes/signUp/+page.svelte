@@ -30,7 +30,7 @@
 	<h1>Sign up/ Sign in</h1>
 </div>
 
-<form class="classicForm" method="POST" use:enhance={handleSubmit}>
+<form class="sendableForm" method="POST" use:enhance={handleSubmit}>
 	<label for="introMessage" class="input-group">
 		<p>Sign in via magic link with your email below</p>
 		{#if form?.message !== undefined}
@@ -59,7 +59,7 @@
 </form>
 
 <style>
-	.classicForm {
+	.sendableForm {
 		margin: 5% auto;
 	}
 </style>

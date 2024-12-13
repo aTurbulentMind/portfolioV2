@@ -1,53 +1,55 @@
-import { fail } from '@sveltejs/kit';
-import type { Actions } from './$types';
+import { redirect, fail } from '@sveltejs/kit'
+import type { Actions, PageServerLoad } from './$types'
 
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
 export const actions: Actions = {
-    submit: async ({ request, locals: { supabase, safeGetSession } }) => {
+     submit: async ({ request, locals: { supabase, safeGetSession } }) => {
+        const { session } = await safeGetSession();
+
+        if (!session) {
+            return fail(401, { error: 'Unauthorized' });
+        }
+
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
+
         const formData = await request.formData();
+        const formTypeMap = {
+            'skater': 1,
+            'sponsorship': 2,
+            'bouting': 3
+        };
 
-        // Extract form data
-        const full_name = formData.get('full_name')?.toString().trim();
-        const contact_point = formData.get('contact_point')?.toString().trim();
-        const message = formData.get('message')?.toString().trim();
+        const formType = formTypeMap[formData.get('formType')];
 
-        // Validation
-        if (!full_name || !contact_point || !message) {
-            return fail(400, { error: 'All fields are required.', values: { full_name, contact_point, message } });
-        }
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
 
-        // Rate limiting: Check the last submission time
-        const { data: lastSubmission, error: lastSubmissionError } = await supabase
-            .from('inbox')
-            .select('submitted_at')
-            .eq('contact_point', contact_point)
-            .order('submitted_at', { ascending: false })
-            .limit(2);
 
-        if (lastSubmissionError) {
-            return fail(500, { error: lastSubmissionError.message });
-        }
+        const submissionData = {
+            form_type: formType,
+            full_name: formData.get('fullName'),
+            derby_name: formData.get('derbyName'),
+            email: formData.get('email'),
+            phone_number: formData.get('phoneNumber'),
+            business_name: formData.get('businessName'),
+            league_name: formData.get('leagueName'),
+            compliant_league: formData.get('compliantLeague') === 'yes',
+            insurance_status: formData.get('insuranceStatus') === 'yes',
+            preferred_date: formData.get('prefDate'),
+            played_together: formData.get('playedTogether') === 'on',
+            comments: formData.get('comments')
+        };
 
-        if (lastSubmission.length > 0) {
-            const lastSubmittedAt = new Date(lastSubmission[0].submitted_at);
-            const now = new Date();
-            const timeDifference = (now - lastSubmittedAt) / 1000; // Time difference in seconds
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
 
-            if (timeDifference < 60) { // Allow only two submissions per minute
-                return fail(429, { error: 'Please wait a minute before submitting another message.' });
-            }
-        }
 
-        // Insert data into Supabase
         try {
-            const { data, error } = await supabase.from('inbox').insert({ full_name, contact_point, message });
+            await supabase.from('form_submissions').insert(submissionData);
 
-            if (error) {
-                return fail(500, { error: error.message });
-            }
-
-            return { success: true };
+            throw redirect(303, '/usr_profile/warehouse_Edit');
         } catch (error) {
             return fail(500, { error: error.message });
         }
     }
 };
+

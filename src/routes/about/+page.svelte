@@ -1,44 +1,68 @@
-<script>
-	import ItsMe from '$lib/img/myFace.jpg'
-	import Nature1 from '$lib/img/nature1.jpg'
-</script>
+<svelte:head>
+	<title>About Us - West Sound Roller Derby</title>
+	<meta
+		name="description"
+		content="Learn about West Sound Roller Derby, our mission, values, and history. We are dedicated to fostering athleticism, teamwork, and personal growth in a positive environment."
+	/>
+	<meta
+		name="keywords"
+		content="roller derby, West Sound, about us, mission, values, history, sports"
+	/> <meta property="og:title" content="About Us - West Sound Roller Derby" />
+	<meta
+		property="og:description"
+		content="Learn about West Sound Roller Derby, our mission, values, and history. We are dedicated to fostering athleticism, teamwork, and personal growth in a positive environment."
+	/> <meta property="og:image" content="/path/to/your/image.jpg" />
+	<meta property="og:url" content="https://www.yourwebsite.com/about" />
+	<meta name="twitter:card" content="summary_large_image" />
+</svelte:head>
 
 <div class="head_Line">
-	<h1>About:</h1>
+	<h1>About</h1>
 </div>
 
-<img class="face" src={ItsMe} alt="its my face" />
+<main>
+	<h2>HOW WE TAKE CARE OF BUSINESS</h2>
 
-<h1>Joel Rivers</h1>
+	<p class="glass_Back">
+		West Sound Roller Derby began with one goal: to create an environment where skaters could be
+		trained in body and mind to play roller derby. Beginning in January 2012, our league hit the
+		ground running as NDC, with skaters who had the passion and experience to make this league
+		successful from day one. Our league has many facets we focus on intently, but the primary ones
+		are equality, sportsmanship and democracy. We believe that no matter how long you have skated,
+		that every skater has a voice in their league and that every skater has equal ownership in this
+		league.
+	</p>
 
-<p>
-	I picked up website development a few years ago. While working in a retail store. I spent down
-	time learning about building a new website for the shop. Something magic happened and I easily
-	found myself addicted. One realm of learning bled into another. As the wealth of knowledge grew,
-	so did the interest in learning more. I've done it for fun, but I want to use my skills to help
-	people who need it.
-</p>
+	<p class="glass_Back">
+		WSRD is a league that loves to have fun on and off the track. However, our league is our
+		business, and we take running it very seriously. We are passionate about our training and the
+		development of smart play. We are dedicated to playing derby at a competitive level. The success
+		of this league is all due to our members' integrity, attention to detail and drive. We love
+		organization, we love hard work and we are dedicated to always learning and bettering ourselves.
+		We are committed to nurturing our new recruits and invest our time and positive attitudes into
+		the training of our skaters. We strive to create and maintain an intentionally positive culture
+		within our membership. We pride ourselves on behaving respectfully towards one another and to
+		others outside of our league.
+	</p>
 
-<p>
-	I do spend some time with fun things like going to concerts or playing video games or working in
-	the yard, to get away and reset the brain. Hiking, walking the dog and backpacking is another nice
-	escape from being immersed in technology.
-</p>
+	<p class="glass_Back">
+		As of January 2015, our league is a registered non-profit corporation with the State of
+		Washington and a 501(c)(3) tax exempt organization with the Internal Revenue Service. For more
+		information about our tax exempt and non-profit status, including ways to donate, please contact
+		us to discuss your opportunities to support us here.
+	</p>
+</main>
 
-<img src={Nature1} alt="a sunny day on top of a mountain at a lake. It is serene" />
-
-<!--svelte-ignore css-unused-selector -->
+<!-- svelte-ignore css-unused-selector -->
 <style>
+	/* Phone size / base */
 	img {
-		width: 60%;
-		margin: 0 20%;
-	}
+		width: 70vw;
+		margin: 5vh 15vw;
 
-	/* Tablet Size */
-	@media (min-width: 768px) {
-		.face {
-			width: 35%;
-			margin: 0 30%;
+		@media screen and (min-width: 768px) {
+			width: 40vw;
+			margin: 5vh 30vw;
 		}
 	}
 </style>

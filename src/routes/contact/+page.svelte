@@ -1,165 +1,281 @@
 <script lang="ts">
-	import Twitt from '$lib/svg/birdy.svelte'
-	import Insta from '$lib/svg/insta.svelte'
-	import FaBoo from '$lib/svg/faBoo.svelte'
-
 	import { enhance } from '$app/forms'
 
-	let formSubmitted = false
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
 
-	const handleSubmit = () => {
-		formSubmitted = true
+	let selectedForm = ''
+
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
+	const handleSubmit = async (event) => {
+		event.preventDefault()
+		const formData = new FormData(event.target)
+
+		// Add form type to formData
+		formData.append('formType', selectedForm)
+
+		// Submit the form
+		await fetch('/submit', {
+			method: 'POST',
+			body: formData
+		})
 	}
 </script>
 
-<div class=" head_Line">
-	<h1>Contact:</h1>
-</div>
+<svelte:head>
+	<title>Forms - West Sound Roller Derby</title>
+	<meta
+		name="description"
+		content="Connect with West Sound Roller Derby through our various forms. Whether you're a visiting skater, a sponsor, or looking to schedule a bout, we've got you covered."
+	/>
+	<meta
+		name="keywords"
+		content="roller derby, West Sound, forms, visiting skater, sponsorship, bout scheduling"
+	/>
+	<meta property="og:title" content="Forms - West Sound Roller Derby" />
+	<meta
+		property="og:description"
+		content="Connect with West Sound Roller Derby through our various forms. Whether you're a visiting skater, a sponsor, or looking to schedule a bout, we've got you covered."
+	/>
+	<meta property="og:image" content="/path/to/your/image.jpg" />
+	<meta property="og:url" content="https://www.yourwebsite.com/forms" />
+	<meta name="twitter:card" content="summary_large_image" />
+</svelte:head>
 
-<!-- form to submit a message -->
-{#if !formSubmitted}
-	<form
-		class="classicForm"
-		method="post"
-		action="?/submit"
-		use:enhance={({ formElement, formData, action, cancel }) => {
-			return async ({ result, update }) => {
-				if (result.type === 'success') {
-					handleSubmit()
-					await update()
-				}
-			}
-		}}
-		enctype="multipart/form-data"
-	>
-		<label for="full_name">Name</label>
-		<input type="text" id="full_name" name="full_name" placeholder="Enter your name" required />
+<header class="head_Line">
+	<h1>Contact</h1>
+</header>
 
-		<label for="contact_point">Email</label>
-		<input
-			type="text"
-			id="contact_point"
-			name="contact_point"
-			placeholder="Enter your email"
-			required
-		/>
+<main>
+	<p>
+		West Sound Roller Derby is a vibrant and dynamic community that welcomes skaters of all levels,
+		from beginners to seasoned athletes. If you’re a visiting skater looking to join a practice or
+		participate in a bout, the <span> Visiting Skater Information Form</span> is your gateway to connecting
+		with the team. By filling out this form, you’ll receive all the necessary information about practice
+		schedules, bout opportunities, and any requirements for visiting skaters. It’s a fantastic way to
+		experience the camaraderie and excitement of roller derby while honing your skills with a supportive
+		and enthusiastic group.
+	</p>
 
-		<label for="message">Message</label>
-		<textarea id="message" name="message" placeholder="Enter your message" required></textarea>
+	<p>
+		For businesses and individuals interested in supporting the team, the <span
+			>Sponsorship Form</span
+		> offers a unique opportunity to become a part of the West Sound Roller Derby family. Sponsorship
+		not only helps the team with essential resources and equipment but also provides valuable exposure
+		for your brand within the local community and beyond. Whether you’re looking to sponsor a specific
+		event, a season, or the team as a whole, your support will be greatly appreciated and acknowledged
+		in various promotional materials and events.
+	</p>
 
-		<button class="button-Ghost" type="submit">Submit</button>
-	</form>
-{:else}
-	<p>Thank you for the message! I will get back to you as soon as I can.</p>
-{/if}
+	<p>
+		If you’re an organizer or a team looking to schedule a bout with West Sound Roller Derby, the
+		<span>Request Bouting Date Form</span> is the perfect tool to get started. This form allows you to
+		propose potential dates and provide details about your team and event. By coordinating with West
+		Sound Roller Derby, you can ensure a thrilling and competitive bout that will be enjoyed by skaters
+		and fans alike. Whether it’s a friendly match or a high-stakes competition, West Sound Roller Derby
+		is always eager to engage with other teams and showcase the sport’s excitement and athleticism.
+	</p>
 
-<div class="follow">
-	<a href="https://twitter.com/LanternLightDev/"> <svg><Twitt /> </svg></a>
-	<a href="https://www.instagram.com/lanternlightdevelopment/"><svg> <Insta /></svg> </a>
-	<a href="https://www.facebook.com/profile.php?id=100078803221612/"><svg><FaBoo /></svg> </a>
-</div>
+	<p>Please select a way to communicate with the team:</p>
+	<div class="selector">
+		<label for="formSelector">Choose a form:</label>
+		<select id="formSelector" bind:value={selectedForm}>
+			<option value="">-- Select a form --</option>
+			<option value="skater">Visiting Skater Information Form</option>
+			<option value="sponsorship">Sponsorship Form</option>
+			<option value="bouting">Request Bouting Date Form</option>
+		</select>
+	</div>
 
-<!--svelte-ignore css-unused-selector -->
+	<!-- Visiting Skater form  -->
+	{#if selectedForm === 'skater'}
+		<form
+			class="sendableForm"
+			method="post"
+			action="?/submit"
+			use:enhance
+			enctype="multipart/form-data"
+			on:submit={handleSubmit}
+		>
+			<input type="hidden" name="formType" value="skater" />
+			<h2>Visiting Skater Information Form</h2>
+
+			<label class="input-group" for="fullName">
+				<span>Full Name *</span>
+				<input type="text" id="fullName" name="fullName" placeholder="Your full name" required />
+			</label>
+
+			<label class="input-group" for="derbyName">
+				<span>Derby Name *</span>
+				<input
+					type="text"
+					id="derbyName"
+					name="derbyName"
+					placeholder="Your derby nickname"
+					required
+				/>
+			</label>
+
+			<label class="input-group" for="email">
+				<span>Email *</span>
+				<input type="email" id="email" name="email" placeholder="Your email address" required />
+			</label>
+
+			<label class="input-group" for="phoneNumber"
+				>Phone Number
+				<input type="text" id="phoneNumber" name="phoneNumber" placeholder="(555) - 867 - 5309" />
+			</label>
+
+			<fieldset class="radio-group">
+				<legend>Is it a WFTDA compliant league? *</legend>
+				<label><input type="radio" name="compliantLeague" value="yes" required /> Yes</label>
+				<label><input type="radio" name="compliantLeague" value="no" required /> No</label>
+			</fieldset>
+
+			<fieldset class="radio-group">
+				<legend>Do you have active WFTDA Insurance? *</legend>
+				<label><input type="radio" name="insuranceStatus" value="yes" required /> Yes</label>
+				<label><input type="radio" name="insuranceStatus" value="no" required /> No</label>
+			</fieldset>
+
+			<label class="input-group" for="comments"
+				>Comments or Questions
+				<textarea id="comments" name="comments"></textarea>
+			</label>
+
+			<button class="W-button" type="submit">Submit 😊</button>
+			<aside>* Indicates required field</aside>
+		</form>
+	{/if}
+
+	<!-- Sponsorship form -->
+	{#if selectedForm === 'sponsorship'}
+		<form
+			class="sendableForm"
+			method="post"
+			action="?/submit"
+			use:enhance
+			enctype="multipart/form-data"
+			on:submit={handleSubmit}
+		>
+			<input type="hidden" name="formType" value="sponsorship" />
+			<h2>Sponsorship Form</h2>
+
+			<label class="input-group" for="fullName">
+				<span>Full Name *</span>
+				<input type="text" id="fullName" name="fullName" placeholder="Your full name" required />
+			</label>
+
+			<label class="input-group" for="businessName"
+				><span> Business Name * </span>
+				<input
+					type="text"
+					id="businessName"
+					name="businessName"
+					placeholder="Your business name"
+					required
+				/>
+			</label>
+
+			<label class="input-group" for="phoneNumber"
+				>Phone Number
+				<input type="text" id="phoneNumber" name="phoneNumber" placeholder="(555) - 867 - 5309" />
+			</label>
+
+			<label class="input-group" for="email">
+				<span>Email *</span>
+				<input type="email" id="email" name="email" placeholder="Your email address" required />
+			</label>
+
+			<label class="input-group" for="comments"
+				>Comments or Questions
+				<textarea id="comments" name="comments" placeholder="Your comments or questions"></textarea>
+			</label>
+
+			<button class="W-button" type="submit">Submit 😊</button>
+			<aside>* Indicates required field</aside>
+			<!-- <p>Sponsorship Packet</p> -->
+		</form>
+	{/if}
+
+	<!-- Bouting form -->
+	{#if selectedForm === 'bouting'}
+		<form
+			class="sendableForm"
+			method="post"
+			action="?/submit"
+			use:enhance
+			enctype="multipart/form-data"
+			on:submit={handleSubmit}
+		>
+			<input type="hidden" name="formType" value="bouting" />
+
+			<h2>Request Bouting Date</h2>
+
+			<label for="leagueName" class="input-group"
+				><span> League Name * </span>
+				<input
+					type="text"
+					id="leagueName"
+					name="leagueName"
+					placeholder="Your league name"
+					required
+				/>
+			</label>
+
+			<label class="input-group" for="fullName"
+				><span> Corespondent Name * </span>
+				<input type="text" id="fullName" name="fullName" placeholder="Your name" required />
+			</label>
+
+			<label class="input-group" for="phoneNumber"
+				>Phone Number
+				<input type="text" id="phoneNumber" name="phoneNumber" placeholder="(555) - 867 - 5309" />
+			</label>
+
+			<label class="input-group" for="prefDate"
+				><span> Preferred Date * </span>
+				<input type="date" id="prefDate" name="prefDate" />
+			</label>
+
+			<label class="radio-group" for="playedTogether"
+				>Have you played with us before?
+				<input type="checkbox" id="playedTogether" name="playedTogether" />
+			</label>
+
+			<fieldset class="radio-group">
+				<legend> Is it a WFTDA compliant league? *</legend>
+				<label><input type="radio" name="compliantLeague" value="yes" required /> Yes</label>
+				<label><input type="radio" name="compliantLeague" value="no" required /> No</label>
+			</fieldset>
+
+			<fieldset class="radio-group">
+				<legend>Do you have active WFTDA Insurance? *</legend>
+				<label><input type="radio" name="insuranceStatus" value="yes" required /> Yes</label>
+				<label><input type="radio" name="insuranceStatus" value="no" required /> No</label>
+			</fieldset>
+
+			<label class="input-group" for="comments"
+				>Comments or Questions
+				<textarea id="comments" name="comments"></textarea>
+			</label>
+
+			<button class="W-button" type="submit">Submit 😊 </button>
+			<aside>* Indicates required field</aside>
+		</form>
+	{/if}
+</main>
+
+<!--ignore css-unused-selector-->
 <style>
-	/* Reflective Follow  */
-	.follow {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		background-color: transparent;
-		text-transform: uppercase;
+	.selector {
+		margin: 10vh 20vw;
+	}
+	.sendableForm {
+		margin: 0 auto;
 
-		& a {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			position: relative;
-			padding: var(--size-4);
-			margin: 0 4%;
-			color: var(--txt-1);
-			text-decoration: none;
-			overflow: hidden;
-			transition: var(--ani-Speed);
-			-webkit-box-reflect: below 1px linear-gradient(transparent, #0003);
-		}
-
-		& svg {
-			width: 8vw;
-			height: 8vh;
-		}
-
-		& a:hover {
-			background: #e42886;
-			color: rgb(201, 201, 201);
-			box-shadow: 0 0 50px #e42886;
-			transition-delay: var(--ani-Speed);
-		}
-
-		& a:before {
-			content: '';
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 10px;
-			height: 10px;
-			border-top: 2px solid var(--txt-1);
-			border-left: 2px solid var(--txt-1);
-			transition: var(--transit);
-		}
-
-		& a:hover:before {
-			width: 100%;
-			height: 100%;
-			border-top: 2px solid var(--bg-2);
-			border-left: 2px solid var(--bg-2);
-			transition: var(--transit);
-		}
-
-		& a:after {
-			content: '';
-			position: absolute;
-			bottom: 0;
-			right: 0;
-			width: 10px;
-			height: 10px;
-			border-bottom: 2px solid var(--txt-1);
-			border-right: 2px solid var(--txt-1);
-			transition: var(--transit);
-			transition: var(--transit);
-		}
-
-		& a:hover:after {
-			width: 100%;
-			height: 100%;
-			border-bottom: 2px solid var(--bg-2);
-			border-right: 2px solid var(--bg-2);
-			transition: var(--transit);
-		}
-
-		& a:nth-child(1) {
-			filter: hue-rotate(215deg);
-		}
-
-		& a:nth-child(3) {
-			filter: hue-rotate(270deg);
-		}
-
-		@media (min-width: 1024px) {
-			& a {
-				height: 12vh;
-				width: 8vw;
-			}
-
-			& a:before,
-			& a:after {
-				width: 2vw;
-				height: 2vh;
-			}
-
-			& svg {
-				width: 6vw;
-				height: 6vh;
-			}
+		& .W-button {
+			width: 60%;
 		}
 	}
 </style>

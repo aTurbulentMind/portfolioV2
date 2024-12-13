@@ -1,22 +1,21 @@
-import { redirect, fail } from '@sveltejs/kit';
-import type { Actions, PageServerLoad } from './$types';
+//  +page.server.ts 
 
-export const actions: Actions = {
-    submit: async ({ request, locals: { supabase, safeGetSession } }) => {
-        const formData = await request.formData();
-        const submissionData = {
-            full_name: formData.get('full_name'),
-            contact_point: formData.get('contact_point'),
-            message: formData.get('message')
-        };
-        try {
-            const { data, error } = await supabase.from('inbox').insert(submissionData);
-            if (error) {
-                return fail(500, { error: error.message });
-            }
+import { redirect } from '@sveltejs/kit';
+import {fetchEventsAndImages} from '$lib/assets/utils/eve_utils';
 
-        } catch (error) {
-            return fail(500, { error: error.message });
-        }
+export const load: PageServerLoad = async ({ locals: { supabase, safeGetSession } }) => {
+  const { session } = await safeGetSession();
+
+  try {
+    const { existingEvents, images, error } = await fetchEventsAndImages(supabase);
+
+    if (error) {
+      console.error('Error fetching data:', error);
     }
+
+    return { session, existingEvents, images };
+  } catch (error) {
+    console.error('Unexpected error:', error.message);
+    return { session: null, existingEvents: [], images: [], error: error.message };
+  }
 };

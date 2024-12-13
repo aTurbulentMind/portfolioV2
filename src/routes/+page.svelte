@@ -1,300 +1,177 @@
-<script>
-	import { enhance } from '$app/forms'
-	import { onDestroy } from 'svelte'
+<script lang="ts">
+	import { onMount } from 'svelte'
+	import { findMatchingImage } from '$lib/assets/utils/eve_utils.js'
 
-	import Wsrd from '$lib/img/wsrd.png'
-	import ArtCount from '$lib/img/artCountV4.png'
-	import RandReci from '$lib/img/food.png'
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
 
-	// Rolling group of words
-	let entryRoller = [
-		'Create',
-		'Innovate',
-		'Connect',
-		'Share',
-		'Explore',
-		'Learn',
-		'Grow',
-		'Inspire',
-		'Lead',
-		'Design',
-		'Build',
-		'Play',
-		'Dream',
-		'Achieve',
-		'Express',
-		'Live'
-	]
+	export let data
 
-	let currentIndex = 0
-	let currentPhrase = entryRoller[currentIndex]
+	let { session, images, existingEvents } = data
+	$: ({ session, existingEvents, images } = data)
 
-	const interval = setInterval(() => {
-		currentIndex = (currentIndex + 1) % entryRoller.length
-		currentPhrase = entryRoller[currentIndex]
-	}, 2000)
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
 
-	onDestroy(() => {
-		clearInterval(interval)
-	})
-
-	let formSubmitted = false
-
-	const handleSubmit = () => {
-		formSubmitted = true
+	// Helper function to compare event dates with the current date
+	function isUpcomingEvent(event) {
+		const today = new Date()
+		const eventDate = new Date(event.event_date)
+		return eventDate >= today
 	}
+
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
+	// Sort events by date and find the first future event
+	let sortedEvents = existingEvents.sort((a, b) => new Date(a.event_date) - new Date(b.event_date))
+	let nextEvent = sortedEvents.find(isUpcomingEvent) || null
+
+	// Find matching image for the next event, if it exists
+	let nextEventImage = nextEvent ? findMatchingImage(nextEvent.event_name, images) : null
+
+	// Add timestamp on the client only using onMount
+	let nextEventImageUrl = nextEventImage ? nextEventImage.url : null
+
+	//➖ ➖ ➖ ➖ ➖ 🦖➖ ➖ ➖ 🌟  🌟  🌟
+
+	onMount(() => {
+		if (nextEventImageUrl) {
+			nextEventImageUrl = `${nextEventImage.url}?t=${new Date().getTime()}`
+		}
+	})
 </script>
 
 <svelte:head>
-	<title>Lantern Light Development Homepage</title>
+	<title>West Sound Roller Derby Homepage</title>
 	<meta
 		name="description"
-		content="Welcome to the Lantern Light Development  homepage. Seeking to help people the way they want."
+		content="Welcome to the West Sound Roller Derby homepage. Stay updated with our latest events, news, and more."
 	/>
-	<meta name="keywords" content="web development, web design, software development" />
-	<meta property="og:title" content="Lantern Light Development Homepage" />
+	<meta name="keywords" content="roller derby, West Sound, events, news, sports" />
+	<meta property="og:title" content="West Sound Roller Derby Homepage" />
 	<meta
 		property="og:description"
-		content="Welcome to the Lantern Light Development  homepage. Seeking to help people the way they want."
+		content="Welcome to the West Sound Roller Derby homepage. Stay updated with our latest events, news, and more."
 	/>
-	<meta property="og:image" content="$lib/img/backHero2p.png" />
-	<meta property="og:url" content="https://www.lanternlightdevelopment.com/" />
+	<meta property="og:image" content="/path/to/your/image.jpg" />
+	<meta property="og:url" content="https://www.yourwebsite.com" />
 	<meta name="twitter:card" content="summary_large_image" />
 </svelte:head>
 
-<!--welcome info-->
+<hero>
+	<div class="hero-content">
+		<h1>West Sound Roller Derby</h1>
+		<section class="event_Card">
+			{#if nextEvent}
+				<article class="event-details">
+					<header>
+						<h2>{nextEvent.event_name}</h2>
+					</header>
+					{#if nextEventImageUrl}
+						<article class="event-flyer">
+							<figure>
+								<img src={nextEventImageUrl} alt="Event Flyer" />
+							</figure>
+						</article>
+					{:else}
+						<p>No matching flyer found.</p>
+					{/if}
+					<p>{nextEvent.description}</p>
+					<p>{nextEvent.event_date.split('T')[0]}</p>
+					<p>{nextEvent.location}</p>
+					<button class="ripple-btn" type="button">BUY TICKETS!</button>
+				</article>
+			{/if}
+		</section>
+		<section class="action_Card">
+			<p>Sub to our letters</p>
+			<button class="ripple-btn" type="button">SIGN UP!</button>
+			<br />
+			<p>A 501c3 non-profit</p>
+			<button class="ripple-btn" type="button">DONATE!</button>
+		</section>
+	</div>
+</hero>
 
-<header id="hero-banner" class="hero-banner">
-	<h1 class="banner-text">Lantern Light Development</h1>
-
-	<section class="banner-phrase glass-Box">
-		<p>
-			<span class="phrase">{currentPhrase} </span>
-		</p>
-		<p>the way YOU want</p>
-	</section>
-
-	<!-- form to submit a message -->
-	<section class="banner-form">
-		{#if !formSubmitted}
-			<form
-				class="classicForm"
-				method="post"
-				action="?/submit"
-				use:enhance={({ formElement, formData, action, cancel }) => {
-					return async ({ result, update }) => {
-						if (result.type === 'success') {
-							handleSubmit()
-							await update()
-						}
-					}
-				}}
-				enctype="multipart/form-data"
-			>
-				<p>Reach out</p>
-				<label for="full_name">Name</label>
-				<input type="text" id="full_name" name="full_name" placeholder="Enter your name" required />
-
-				<label for="contact_point">Email</label>
-				<input
-					type="text"
-					id="contact_point"
-					name="contact_point"
-					placeholder="Enter your email"
-					required
-				/>
-
-				<label for="message">Message</label>
-				<textarea id="message" name="message" placeholder="Enter your message" required></textarea>
-
-				<button class="ripple-btn" type="submit">Submit</button>
-			</form>
-		{:else}
-			<p class="glass-Box">Thank you for the message! I will get back to you as soon as I can.</p>
-		{/if}
-	</section>
+<header class="head_Line">
+	<h1>The best roller derby team in Kitsap County</h1>
 </header>
 
 <section>
-	<h2>Your Partner in Making a Difference</h2>
-	<p>
-		There are so many options when it comes to web development, and it can feel overwhelming. I'm
-		here to make it easier. I’m not here to empty your budget—I believe in offering fair, accessible
-		help to those who need it most. My goal is simple: to give you the tools you need to succeed, no
-		matter your starting point.
-	</p>
-	<a href="/contact/" class="button-Ghost">Reach out</a>
-</section>
-
-<section class="glass-Box-2">
-	<h2>About Me</h2>
-	<p>
-		I’ve spent over six years studying and building websites, including a few years working at a
-		software company where I learned the ins and outs of full-stack web development. Now, I’m
-		focused on putting my skills to work for people who want to make a difference. Nonprofits and
-		mission-driven organizations inspire me, and I want to support their work in any way I can.
-	</p>
-</section>
-
-<section>
-	<h2>Why would I do this?</h2>
-	<p>
-		I believe in helping people who are working to create a better world. Nonprofits often operate
-		on tight budgets and big dreams—I’m here to be a partner in making those dreams achievable.
-	</p>
-</section>
-
-<section>
-	<h2>Check out some of my projects:</h2>
-	<article class="LR_block">
-		<img src={Wsrd} alt="West Sound RD project screenshot" />
-		<h3>West Sound RD (Full stack)</h3>
+	<article>
 		<p>
-			This project marked a big step forward in both complexity and refinement, expanding on
-			previous ideas of managing and interacting with website content directly from the page.
+			Welcome to the home of Kitsap County’s premier roller derby team! We are a passionate group of
+			athletes dedicated to the sport of flat track roller derby. Our mission is to foster
+			athleticism, teamwork, and personal growth in a safe, positive, and hard-working training
+			environment. As a 501©3 non-profit organization, we are run entirely by volunteers who share
+			a love for the sport and a commitment to our community.
 		</p>
-		<a class="pulse-button" href="https://westsoundrd2.netlify.app/">Check it out</a>
-		<a class="pulse-button" href="/reviews/wsrd">Read about this project</a>
-	</article>
 
-	<article class="LR_block_l">
-		<img src={ArtCount} alt="3D counter-top store project screenshot" />
-		<h3>3D counter-top store (3D)</h3>
 		<p>
-			I took a course on building 3D websites. This was a way for me to start to understand the
-			concepts.
+			We pride ourselves on being an inclusive and welcoming team, embracing skaters of all ability
+			levels. Whether you’re a seasoned pro or just lacing up your skates for the first time, you’ll
+			find a supportive and encouraging atmosphere here. Our core values of respect, communication,
+			and integrity guide us both on and off the track, ensuring that every member feels valued and
+			empowered.
 		</p>
-		<a class="pulse-button" href="https://artisan-countertop-v4.netlify.app/">Check it out</a>
-	</article>
-
-	<article class="LR_block">
-		<img src={RandReci} alt="Table Tango project screenshot" />
-		<h3>Table Tango (API calling)</h3>
 		<p>
-			I got tired of trying to figure out dinner. So I made a random recipe generator to get better
-			at learning how to display fetched data.
+			Join us as we take care of business on the track and in our community. Together, we strive to
+			push the boundaries of what we can achieve, celebrating every victory and learning from every
+			challenge. Come be a part of our roller derby family and experience the thrill, camaraderie,
+			and empowerment that comes with being a part of this incredible sport.
 		</p>
-		<a class="pulse-button" href="https://table-tango.netlify.app/">Check it out</a>
 	</article>
 </section>
-
-<ender>
-	<p>And if you are curious, you can click <a href="/about/">here</a> to learn about me</p>
-</ender>
 
 <!--svelte-ignore css-unused-selector -->
 <style>
-	/* entry banner */
-	header {
+	hero {
+		display: flex;
 		position: relative;
-		height: 100vh;
-		display: grid;
-		grid-template-columns: 1fr;
-		grid-template-rows: 1fr 1fr 1fr;
-		background-image: url('$lib/img/backHero27.png');
+		height: 100%;
+		width: 100vw;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+		background-image: url('$lib/assets/img/wsrdTeamShot.jpg');
 		background-repeat: no-repeat;
-		background-attachment: fixed;
-		background-position: center;
 		background-size: cover;
+		background-position: center;
+		background-attachment: fixed;
 		z-index: 999;
-		color: var(--txt-2);
 	}
 
-	.banner-text {
-		display: grid;
-		font-size: var(--size-9);
-		font-weight: 700;
-	}
+	.hero-content {
+		background: var(--back_Hallow_Dark);
+		padding: var(--space_Sm);
 
-	.banner-phrase {
-		display: grid;
-		border-radius: var(--rad-Sm);
-		align-self: center;
-		justify-self: center;
-		box-shadow: var(--box-Shadow);
-
-		& p {
-			font-size: var(--size-7);
-			padding: var(--space-Sm);
-			margin: 0;
-		}
-	}
-
-	.phrase {
-		text-decoration: underline;
-		font-size: var(--size-7);
-		animation: slideUp 2s infinite;
-		padding: 0;
-		margin: 0;
-	}
-
-	.banner-form {
-		& p {
-			margin: var(--space-Sm);
-		}
-	}
-
-	.button-Ghost {
-		margin: var(--space-Med);
-	}
-
-	.glass-Box-2 {
-		height: 70vh;
-
-		& h2 {
-			padding-top: 20%;
-
-			@media screen and (min-width: 768px) {
-				padding-top: 5%;
-			}
-		}
-		@media screen and (min-width: 1440px) {
-			height: 75vh;
-		}
-	}
-
-	/* Tablet  SIze  */
-	@media only screen and (min-width: 766px) {
-		header {
-			grid-template-columns: 1fr 1fr;
-			grid-template-rows: 1fr 1fr 1fr;
+		& h1,
+		& h2,
+		p {
+			margin: var(--space) 0;
 		}
 
-		.banner-text {
-			grid-column: span 2;
-			margin: var(--space-Sm);
-		}
-
-		.banner-phrase {
+		& img {
 			width: 80%;
-			margin-top: -5vh;
-		}
+			border-radius: var(--rad);
 
-		.banner-form {
-			width: 100%;
-			& input,
-			textarea {
-				width: 100%;
+			@media (min-width: 768px) {
+				width: 50%;
 			}
 		}
-	}
 
-	/* Big screens */
-	@media only screen and (min-width: 1440px) {
-		.banner-text {
-			padding: 0;
-			margin: var(--space-Side);
-			grid-row: span 2;
+		@media screen and (min-width: 768px) {
+			& h1,
+			& h2,
+			p {
+				margin: var(--space_Sm) 0;
+			}
 		}
 
-		.banner-phrase {
-			font-size: var(--size-8);
-			margin-top: -25vh;
-		}
-
-		.button-Ghost {
-			margin: var(--space-Lg);
-			margin-top: -15vh;
+		@media screen and (min-width: 1024px) {
+			& h1,
+			& h2,
+			p {
+				margin: var(--space) 0;
+			}
 		}
 	}
 </style>
