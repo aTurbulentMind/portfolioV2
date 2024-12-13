@@ -1,37 +1,42 @@
 <footer>
 	<p>
-		Produced by <a href="https://www.lanternlightdevelopment.com/"> Lantern Light Development</a>
+		Produced by <br />
+		<a href="https://www.lanternlightdevelopment.com/"> Lantern Light Development</a> 2024
 	</p>
 </footer>
 
 <!-- svelte-ignore css-unused-selector -->
 <style>
 	footer {
-		background-color: var(--bg-2);
-		display: none;
+		background-color: var(--gradient);
 		justify-content: center;
-		position: relative;
+		display: flex;
 		bottom: 0;
 		width: 100vw;
-		height: 4vh;
+		height: fit-content;
 	}
 
 	p {
-		display: flex;
 		align-items: center;
 		justify-content: center;
-		font-size: var(--size-1);
-		margin: var(--size-4);
+		font-size: var(--f_Sm);
+		margin: var(--marg);
 		gap: 10px;
+
+		& a {
+			color: var(--text_Main);
+
+			&:hover {
+				padding: 0 1vw;
+				transform: scale(1.1);
+				text-decoration: underline;
+			}
+		}
 	}
 
-	a {
-		color: var(--bg-1);
-	}
-
-	@media only screen and (min-width: 980px) {
+	@media only screen and (min-width: 1024px) {
 		p {
-			font-size: var(--size-4);
+			font-size: var(--f_Sm);
 		}
 	}
 </style>

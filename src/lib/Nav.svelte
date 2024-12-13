@@ -1,90 +1,161 @@
-<script>
-	import { onMount } from 'svelte'
+<script lang="ts">
+	// Importing navigation functions from Svelte's app module
+	import { goto } from '$app/navigation'
+	import { page } from '$app/stores'
 
-	import Logo_Svg from '$lib/svg/logo.svelte'
-
-	onMount(() => {
-		const userPrefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
-
-		const hasUserSetDarkModeManually = document.documentElement.dataset.theme === 'dark'
-
-		if (!hasUserSetDarkModeManually) {
-			setTheme(userPrefersDarkMode ? 'dark' : 'light')
+	// Function to navigate to a specified URL without scrolling
+	function navigateTo(url: string) {
+		// Validate URL to prevent open redirects
+		if (url.startsWith('/') || url.startsWith('http')) {
+			goto(url, { noScroll: true })
+		} else {
+			console.error('Invalid URL:', url)
 		}
-	})
-
-	const setTheme = (theme) => {
-		document.documentElement.dataset.theme = theme
-		document.cookie = `siteTheme${theme};max-age=31536000;path=/`
 	}
 
+	// Importing a custom SVG component
+	import Camera_Svg from './svg/crown_Svg.svelte'
+
+	// Variable to track the state of the menu (open/closed)
 	let isMenuOpen = false
 
+	// Function to toggle the menu state
 	function toggleMenu() {
 		isMenuOpen = !isMenuOpen
 	}
 
+	// Variable to track the current state (initially set to 0)
 	let current = 0
-	let isDropdownOpen = false
 </script>
 
 <div class="navbar">
 	<nav class:open={isMenuOpen}>
+		<!-- Navigation menu that opens/closes based on isMenuOpen state -->
 		<ul>
-			<li>
-				<button
-					class="dropdown-toggle"
-					on:click|preventDefault={() => (isDropdownOpen = !isDropdownOpen)}
-					aria-expanded={isDropdownOpen}
-					aria-haspopup="true"
-				>
-					Themes
-				</button>
-				{#if isDropdownOpen}
-					<ul class="dropdown">
-						<li><a href={'#'} on:click={() => setTheme('light')}>Light</a></li>
-						<li><a href={'#'} on:click={() => setTheme('dark')}>dark</a></li>
-						<li><a href={'#'} on:click={() => setTheme('headache')}>headache</a></li>
-						<li><a href={'#'} on:click={() => setTheme('colorBlind')}>color blind</a></li>
-					</ul>
-				{/if}
-			</li>
-			<li>
+			<li aria-current={$page.url.pathname === '/signUp' ? 'page' : undefined}>
+				<!-- List item with aria-current attribute set if the current page is /signUp -->
 				<button on:click={() => (isMenuOpen = false)} on:keydown={() => (isMenuOpen = false)}>
-					<a class:current={current === 0} on:click={() => (current = 0)} href="/services/"
-						>Services</a
+					<!-- Button to close the menu on click or keydown event -->
+					<a
+						class:current={current === 0}
+						on:click|preventDefault={() => {
+							current = 0
+							navigateTo('/signUp')
+						}}
+						href="/signUp"
+					>
+						<!-- Link to /signUp page, prevents default action and navigates using navigateTo function -->
+						Login
+					</a>
+				</button>
+			</li>
+
+			<li aria-current={$page.url.pathname === '/faqs' ? 'page' : undefined}>
+				<button on:click={() => (isMenuOpen = false)} on:keydown={() => (isMenuOpen = false)}>
+					<a
+						class:current={current === 1}
+						on:click={() => {
+							current = 1
+
+							navigateTo('/faqs')
+						}}
+						href="/faqs/">Info</a
 					>
 				</button>
 			</li>
-			<li>
+			<li aria-current={$page.url.pathname === '/about' ? 'page' : undefined}>
 				<button on:click={() => (isMenuOpen = false)} on:keydown={() => (isMenuOpen = false)}>
-					<a class:current={current === 1} on:click={() => (current = 1)} href="/contact">Contact</a
-					>
-				</button>
-			</li>
-			<li>
-				<button on:click={() => (isMenuOpen = false)} on:keydown={() => (isMenuOpen = false)}>
-					<a class:current={current === 2} on:click={() => (current = 2)} href="/about">About</a>
-				</button>
-			</li>
-			<li>
-				<button on:click={() => (isMenuOpen = false)} on:keydown={() => (isMenuOpen = false)}>
-					<a class:current={current === 3} on:click={() => (current = 3)} href="/reviews"
-						>Projects</a
+					<a
+						class:current={current === 2}
+						on:click|preventDefault={() => {
+							current = 2
+							navigateTo('/about')
+						}}
+						href="/about">About</a
 					>
 				</button>
 			</li>
 
-			<li>
+			<li aria-current={$page.url.pathname === '/supporters' ? 'page' : undefined}>
 				<button on:click={() => (isMenuOpen = false)} on:keydown={() => (isMenuOpen = false)}>
-					<a class:current={current === 4} on:click={() => (current = 4)} href="/">Home</a>
+					<a
+						class:current={current === 3}
+						on:click|preventDefault={() => {
+							current = 3
+							navigateTo('/supporters')
+						}}
+						href="/supporters">Supporters</a
+					>
+				</button>
+			</li>
+			<li aria-current={$page.url.pathname === '/contact' ? 'page' : undefined}>
+				<button on:click={() => (isMenuOpen = false)} on:keydown={() => (isMenuOpen = false)}>
+					<a
+						class:current={current === 4}
+						on:click|preventDefault={() => {
+							current = 4
+							navigateTo('/contact')
+						}}
+						href="/contact/">Contact</a
+					>
+				</button>
+			</li>
+			<li aria-current={$page.url.pathname === '/roster' ? 'page' : undefined}>
+				<button on:click={() => (isMenuOpen = false)} on:keydown={() => (isMenuOpen = false)}>
+					<a
+						class:current={current === 5}
+						on:click|preventDefault={() => {
+							current = 5
+
+							navigateTo('/roster')
+						}}
+						href="/roster">Roster</a
+					>
+				</button>
+			</li>
+
+			<li aria-current={$page.url.pathname === '/gallery' ? 'page' : undefined}>
+				<button on:click={() => (isMenuOpen = false)} on:keydown={() => (isMenuOpen = false)}>
+					<a
+						class:current={current === 6}
+						on:click|preventDefault={() => {
+							current = 6
+							navigateTo('/gallery')
+						}}
+						href="/gallery/">Gallery</a
+					>
+				</button>
+			</li>
+
+			<li aria-current={$page.url.pathname === '/shop' ? 'page' : undefined}>
+				<button on:click={() => (isMenuOpen = false)} on:keydown={() => (isMenuOpen = false)}>
+					<a
+						class:current={current === 7}
+						on:click|preventDefault={() => {
+							current = 7
+							navigateTo('/shop')
+						}}
+						href="/shop/">Shop</a
+					>
+				</button>
+			</li>
+			<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
+				<button on:click={() => (isMenuOpen = false)} on:keydown={() => (isMenuOpen = false)}>
+					<a
+						class:current={current === 8}
+						on:click|preventDefault={() => {
+							current = 8
+							navigateTo('/')
+						}}
+						href="/">Home</a
+					>
 				</button>
 			</li>
 		</ul>
 	</nav>
 	<button on:click={toggleMenu} on:keydown={() => (isMenuOpen = false)}>
 		<div class="burger">
-			<svg> <Logo_Svg /></svg>
+			<svg> <Camera_Svg /></svg>
 		</div>
 	</button>
 </div>
@@ -92,17 +163,38 @@
 <!--svelte-ignore css-unused-selector -->
 <style>
 	.navbar {
-		background: var(--gradient);
+		background: radial-gradient(ellipse, hwb(275 4% 32%), hwb(22 2% 17%));
+		background-size: 300% 300%;
+		animation: gradientShift 50s ease-in-out infinite;
 		width: 100vw;
 		display: flex;
-		position: fixed;
 		top: 0;
 		justify-content: space-between;
-		height: var(--size-10);
-		transition: var(--transit);
-		border-bottom: 2px solid var(--accent);
-		box-shadow: var(--box-Shadow);
+		position: fixed;
+		height: 5rem;
 		z-index: 950;
+		transition: transform 1.2s ease-in-out;
+		border-bottom: var(--bord);
+	}
+
+	li[aria-current='page']::before,
+	li[aria-current='page']::after {
+		content: '';
+		padding: var(--space_Sm);
+		border: 3px solid var(--grabber);
+		border-radius: 50px;
+	}
+
+	@keyframes gradientShift {
+		0% {
+			background-position: 0% 50%;
+		}
+		50% {
+			background-position: 100% 50%;
+		}
+		100% {
+			background-position: 0% 50%;
+		}
 	}
 
 	.navbar button {
@@ -110,14 +202,14 @@
 	}
 
 	.navbar a {
-		color: var(--txt-1);
-		transition: var(--transit);
-	}
+		color: var(--back_Alt);
+		text-shadow: 1px 1px 0 var(--highlight);
+		text-decoration: none;
 
-	.navbar a:hover,
-	.navbar a:focus {
-		color: var(--accent);
-		text-shadow: var(--text-Shadow);
+		&:hover {
+			color: var(--text_Main);
+			text-shadow: var(--text_Shadow);
+		}
 	}
 
 	.navbar ul {
@@ -125,39 +217,35 @@
 		flex-direction: column-reverse;
 		justify-content: space-between;
 		align-items: center;
-		gap: var(--size-4);
+		gap: 1rem;
+		list-style: none;
 		margin: 0;
-		padding: 0;
-	}
-
-	.navbar ul li {
-		padding: 3% 0;
-	}
-
-	.navbar > li {
-		position: relative; /* Necessary for positioning the dropdown */
 	}
 
 	.navbar ul li button {
 		all: unset;
-		cursor: pointer;
+		margin-top: 20px;
 	}
 
 	.navbar .burger {
-		display: flex;
+		height: fit-content;
 		width: 100%;
-		margin: 0 2vw;
+		display: flex;
+		background-color: transparent;
+		margin-left: 1rem;
+		align-items: center;
+		justify-content: center;
+	}
 
-		&:hover {
-			cursor: pointer;
-			transform: scale(0.9);
-			transition: transform 0.1s ease-in-out;
-		}
+	.navbar .burger:hover {
+		cursor: pointer;
+		transition: transform 0.1s ease-in-out;
+		transform: scale(1.1);
+	}
 
-		& svg {
-			width: var(--size-9);
-			height: var(--size-9);
-		}
+	.navbar .burger svg {
+		width: 2.5rem;
+		height: 2.5rem;
 	}
 
 	nav {
@@ -169,10 +257,10 @@
 		position: absolute;
 		top: 100%;
 		left: 0;
-		background: var(--gradientFlip);
-		width: 100vw;
-		border-top: 2px solid var(--accent);
-		box-shadow: var(--box-Shadow);
+		background: var(--highlight_Alt);
+		width: 100%;
+		border-bottom: var(--bord);
+		border-top: var(--bord);
 	}
 
 	.current::after {
@@ -181,30 +269,8 @@
 		bottom: 0;
 		left: 0;
 		width: 100%;
-		height: 3px;
-		box-shadow: 0 0 2px var(--accent-1);
-	}
-
-	/* Dropdown Menu Styles */
-	.dropdown {
-		list-style: none;
-		margin: 0;
-		padding: 0;
-		position: absolute; /* Position relative to parent <li> */
-		top: 100%; /* Aligns the dropdown just below the parent <a> */
-		background-color: var(--bg-1);
-		border: var(--bord);
-		box-shadow: var(--box-Shadow);
-		text-transform: capitalize;
-	}
-
-	.dropdown li {
-		padding: 0;
-	}
-
-	.dropdown a {
-		padding: var(--size-4);
-		white-space: nowrap; /* Prevents text wrapping */
+		height: 2px;
+		box-shadow: 0 0 10px rgba(255, 119, 169, 0.8);
 	}
 
 	/* Laptop styles */
@@ -223,22 +289,16 @@
 
 		.navbar ul {
 			flex-direction: row-reverse;
-			gap: var(--space-7);
-			margin: 0 15vw;
-
-			& li {
-				padding: var(--size-4);
-			}
+			gap: 2rem;
+			margin: 0 10vw;
 		}
+	}
 
-		.dropdown {
-			position: absolute;
-			top: 100%;
-			left: 0;
-			background-color: var(--bg-1);
-			border: var(--bord);
-			box-shadow: var(--box-Shadow);
-			text-transform: capitalize;
+	/* Larger screens */
+	@media only screen and (min-width: 1440px) {
+		.navbar ul {
+			gap: 3rem;
+			margin: 0 22vw;
 		}
 	}
 </style>
