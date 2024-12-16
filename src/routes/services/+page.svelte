@@ -92,17 +92,17 @@
 
 <!--svelte-ignore css-unused-selector -->
 <style>
-	priceBox {
+	.price-box {
 		display: grid;
 		grid-template-columns: 1fr;
+	}
 
-		& offer {
-			margin: var(--space-Qtr);
-			color: var(--txt-2);
-			background: var(--accent-1);
-			border-radius: var(--rad-Lg);
-			padding: var(--size-4);
-		}
+	.tier {
+		margin: var(--space-Qtr);
+		color: var(--txt-2);
+		background: var(--bg-2);
+		border-radius: var(--rad-Lg);
+		padding: var(--size-1);
 	}
 
 	.steps {
@@ -119,20 +119,17 @@
 
 	/* Tablet Size */
 	@media only screen and (min-width: 768px) {
-		priceBox {
+		.price-box {
 			grid-template-columns: 1fr 1fr;
-
-			h2 {
-				font-size: var(--size-6);
-			}
 		}
 
 		.steps {
 			& li {
 				font-size: var(--size-6);
-				font-weight: 700;
+				margin: 0;
+				padding: var(--size-4);
+
 				& p {
-					margin: 0;
 					font-weight: 400;
 				}
 			}
@@ -141,16 +138,16 @@
 
 	/* Laptop Size */
 	@media only screen and (min-width: 1024px) {
-		priceBox {
+		.price-box {
 			width: 100vw;
-			grid-template-columns: 1fr 1fr 1fr;
 
-			& offer {
+			& .tier {
 				height: fit-content;
+
 				& h2,
 				p {
 					margin: 0;
-					padding: VAR(--space-Top);
+					padding: var(--size-4);
 				}
 			}
 		}

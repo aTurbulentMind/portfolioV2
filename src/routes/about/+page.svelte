@@ -38,9 +38,8 @@
 	</p>
 
 	<p>
-		I do spend some time with fun things like going to concerts or playing video games or working in
-		the yard, to get away and reset the brain. Hiking, walking the dog and backpacking is another
-		nice escape from being immersed in technology.
+		I do spend some time with fun things like going to concerts, playing video games or working in
+		the yard. Hiking, walking the dog and backpacking is another nice escape from everything else.
 	</p>
 
 	<img src={Nature1} alt="a sunny day on top of a mountain at a lake. It is serene" />

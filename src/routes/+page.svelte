@@ -131,16 +131,16 @@
 	<p>
 		I’ve spent over six years studying and building websites, including a few years working at a
 		software company where I learned the ins and outs of full-stack web development. Now, I’m
-		focused on putting my skills to work for people who want to make a difference. Nonprofits and
-		mission-driven organizations inspire me, and I want to support their work in any way I can.
+		focused on putting my skills to work for people who want to make a difference.
 	</p>
 </section>
 
 <section>
 	<h2>Why would I do this?</h2>
 	<p>
-		I believe in helping people who are working to create a better world. Nonprofits often operate
-		on tight budgets and big dreams—I’m here to be a partner in making those dreams achievable.
+		I believe in helping people who are working to create a better world. Nonprofits and small
+		companies often operate on tight budgets and big dreams—I’m here to be a partner in making those
+		goals achievable.
 	</p>
 </section>
 
@@ -239,7 +239,7 @@
 	}
 
 	.glass-Box-2 {
-		height: 70vh;
+		height: 50vh;
 
 		& h2 {
 			padding-top: 20%;
@@ -248,7 +248,8 @@
 				padding-top: 5%;
 			}
 		}
-		@media screen and (min-width: 1440px) {
+
+		@media screen and (min-width: 1024px) {
 			height: 75vh;
 		}
 	}
