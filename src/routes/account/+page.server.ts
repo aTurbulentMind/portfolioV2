@@ -1,70 +1,68 @@
-// +page.server.ts
-
 import { fail, redirect } from '@sveltejs/kit'
 import type { Actions, PageServerLoad } from './$types'
-//➖ ➖ ➖ ➖ ➖ 🦖➖🦕🦕 ➖ ➖ 🌟  🌟  🌟 💣
 
-export const load: PageServerLoad = async ({ locals: { supabase, safeGetSession } }) => {
-	const { session } = await safeGetSession()
+export const load: PageServerLoad = async ({ locals: { supabase } }) => {
+	const {
+		data: { session }
+	} = await supabase.auth.getSession()
 
 	if (!session) {
-		await supabase.auth.getUser()
-		redirect(303, '/')
+		throw redirect(303, '/')
 	}
 
-	//➖ ➖ ➖ ➖ ➖ 🦖➖🦕🦕 ➖ ➖ 🌟  🌟  🌟 💣
+	const {
+		data: { user },
+		error: userError
+	} = await supabase.auth.getUser()
 
-	// Step 1: Validate user with supabase.auth.getUser() to ensure authenticity
-	const { data: userData, error: userError } = await supabase.auth.getUser()
-
-	if (userError || !userData.user) {
-		console.error('Failed to validate user:', userError?.message)
-		throw redirect(303, '/') // Redirect if user is not authenticated
+	if (userError || !user) {
+		throw redirect(303, '/')
 	}
 
-	//➖ ➖ ➖ ➖ ➖ 🦖➖🦕🦕 ➖ ➖ 🌟  🌟  🌟 💣
+	try {
+		const { data: profile, error: profileError } = await supabase
+			.from('profiles')
+			.select(`username, full_name, contact, avatar_url`)
+			.eq('id', user.id)
+			.single()
 
-	const { data: profile, error: profileError } = await supabase
-		.from('profiles')
-		.select(`username, full_name, contact,avatar_url`)
-		.eq('id', session.user.id)
-		.single()
+		if (profileError) {
+			console.error('Error fetching profile:', profileError.message)
+			return { session, profile: null }
+		}
 
-	if (profileError) {
-		console.error('Error fetching profile:', profileError.message)
-		return fail(500, { error: profileError.message })
+		const { data: newMessage, error: messageError } = await supabase.from('inbox').select('*')
+
+		if (messageError) {
+			console.error('Error fetching new messages:', messageError.message)
+			return { session, profile, newMessage: [] }
+		}
+
+		return { session, profile, newMessage }
+	} catch (error) {
+		console.error('Unexpected error:', error)
+		return { session, profile: null, newMessage: [] }
 	}
-	//➖ ➖ ➖ ➖ ➖ 🦖➖🦕🦕 ➖ ➖ 🌟  🌟  🌟 💣
-
-	// Fetch new messages form inbox table
-	const { data: newMessage, error: messageError } = await supabase.from('inbox').select('*')
-
-	if (messageError) {
-		console.error('Error fetching new messages:', messageError.message)
-		return fail(500, { error: messageError.message })
-	}
-
-	//➖ ➖ ➖ ➖ ➖ 🦖➖🦕🦕 ➖ ➖ 🌟  🌟  🌟 💣
-
-	return { session, profile, newMessage }
 }
 
 export const actions: Actions = {
-	update: async ({ request, locals: { supabase, safeGetSession } }) => {
+	update: async ({ request, locals: { supabase } }) => {
 		const formData = await request.formData()
-		const fullName = formData.get('fullName') as string
-		const username = formData.get('username') as string
-		const contact = formData.get('contact') as string
-		const avatarUrl = formData.get('avatarUrl') as string
+		const fullName = formData.get('fullName')?.toString() || ''
+		const username = formData.get('username')?.toString() || ''
+		const contact = formData.get('contact')?.toString() || ''
+		const avatarUrl = formData.get('avatarUrl')?.toString() || ''
 
-		//➖ ➖ ➖ ➖ ➖ 🦖➖🦕🦕 ➖ ➖ 🌟  🌟  🌟 💣
+		const {
+			data: { session }
+		} = await supabase.auth.getSession()
 
-		const { session } = await safeGetSession()
-
-		//➖ ➖ ➖ ➖ ➖ 🦖➖🦕🦕 ➖ ➖ 🌟  🌟  🌟 💣
+		if (!session) {
+			return fail(401, { error: 'Unauthorized' })
+		}
 
 		const { error } = await supabase.from('profiles').upsert({
-			id: session?.user.id,
+			id: session.user.id,
 			full_name: fullName,
 			username,
 			contact,
@@ -74,6 +72,7 @@ export const actions: Actions = {
 
 		if (error) {
 			return fail(500, {
+				error: error.message,
 				fullName,
 				username,
 				contact,
@@ -82,6 +81,7 @@ export const actions: Actions = {
 		}
 
 		return {
+			success: true,
 			fullName,
 			username,
 			contact,
@@ -89,41 +89,42 @@ export const actions: Actions = {
 		}
 	},
 
-	//➖ ➖ ➖ ➖ ➖ 🦖➖🦕🦕 ➖ ➖ 🌟  🌟  🌟 💣
-
-	updateMessageViewed: async ({ request, locals: { supabase, safeGetSession } }) => {
-		const { session } = await safeGetSession()
+	updateMessageViewed: async ({ request, locals: { supabase } }) => {
+		const {
+			data: { session }
+		} = await supabase.auth.getSession()
 
 		if (!session) {
 			return fail(401, { error: 'Unauthorized' })
 		}
 
 		const formData = await request.formData()
-		const messageId = formData.get('messageId')
-		const viewed = formData.get('viewed') === 'on' // Adjusted here
+		const messageId = formData.get('messageId')?.toString()
+		const viewed = formData.get('viewed') === 'on'
 
-		try {
-			const { error } = await supabase.from('inbox').update({ viewed }).eq('id', messageId)
+		if (!messageId) {
+			return fail(400, { error: 'Message ID is required' })
+		}
 
-			if (error) {
-				console.error('Error updating message:', error.message)
-				return fail(500, { error: error.message })
-			}
+		const { error } = await supabase.from('inbox').update({ viewed }).eq('id', messageId)
 
-			return { success: true }
-		} catch (error) {
-			console.error('Error updating message:', error)
+		if (error) {
+			console.error('Error updating message:', error.message)
 			return fail(500, { error: error.message })
 		}
+
+		return { success: true }
 	},
 
-	//➖ ➖ ➖ ➖ ➖ 🦖➖🦕🦕 ➖ ➖ 🌟  🌟  🌟 💣
+	signout: async ({ locals: { supabase } }) => {
+		const {
+			data: { session }
+		} = await supabase.auth.getSession()
 
-	signout: async ({ locals: { supabase, safeGetSession } }) => {
-		const { session } = await safeGetSession()
 		if (session) {
 			await supabase.auth.signOut()
-			redirect(303, '/')
 		}
+
+		throw redirect(303, '/')
 	}
 }

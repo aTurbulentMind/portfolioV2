@@ -72,7 +72,7 @@
 	{/if}
 
 	<section class="follow">
-		<a href="https://twitter.com/LanternLightDev/"> <svg><Twitt /> </svg></a>
+		<a href="https://bsky.app/profile/soturbulent.bsky.social/"> <svg><Twitt /> </svg></a>
 		<a href="https://www.instagram.com/lanternlightdevelopment/"><svg> <Insta /></svg> </a>
 		<a href="https://www.facebook.com/profile.php?id=100078803221612/"><svg><FaBoo /></svg> </a>
 	</section>

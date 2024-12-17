@@ -124,6 +124,11 @@
 		matter your starting point.
 	</p>
 	<a href="/contact/" class="button-Ghost">Reach out</a>
+	<ul class="marg_Also">
+		Hours of Operation:
+		<li>Monday-Friday: 7:30am-6pm (Pst)</li>
+		<li>Saturday & Sunday: Closed</li>
+	</ul>
 </section>
 
 <section class="glass-Box-2">
@@ -280,6 +285,14 @@
 		}
 	}
 
+	@media only screen and (min-width: 1024px) {
+		.button-Ghost {
+			margin: var(--space-Lg);
+			margin-top: -15vh;
+			margin-bottom: -15vh;
+		}
+	}
+
 	/* Big screens */
 	@media only screen and (min-width: 1440px) {
 		.banner-text {
@@ -291,11 +304,6 @@
 		.banner-phrase {
 			font-size: var(--size-8);
 			margin-top: -25vh;
-		}
-
-		.button-Ghost {
-			margin: var(--space-Lg);
-			margin-top: -15vh;
 		}
 	}
 </style>
