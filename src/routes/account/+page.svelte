@@ -29,6 +29,10 @@
 
 	//➖ ➖ ➖ ➖ ➖ 🦖➖🦕🦕 ➖ ➖ 🌟  🌟  🌟 💣
 
+	console.log('profile: ', profile)
+
+	//➖ ➖ ➖ ➖ ➖ 🦖➖🦕🦕 ➖ ➖ 🌟  🌟  🌟 💣
+
 	const selectMessage = (message) => {
 		selectedMessage = message
 	}
@@ -71,6 +75,14 @@
 <header class="head_Line">
 	<h1>Account</h1>
 </header>
+
+{#if profile.is_admin}
+	<!-- Admin content here -->
+	<h1>Welcome, Admin!</h1>
+	<!-- Add more admin-specific content or functionality here -->
+{:else}
+	<h1>Thank you for subscribing. I hope you have a great week.</h1>
+{/if}
 
 <main>
 	<section class="whatsUp">
