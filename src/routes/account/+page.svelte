@@ -76,190 +76,187 @@
 	<h1>Account</h1>
 </header>
 
-{#if profile.is_admin}
-	<!-- Admin content here -->
-	<h1>Welcome, Admin!</h1>
-	<!-- Add more admin-specific content or functionality here -->
-{:else}
-	<h1>Thank you for subscribing. I hope you have a great week.</h1>
-{/if}
-
 <main>
-	<section class="whatsUp">
-		<ul>
-			<li>
-				<!-- profile Data  -->
-				<label for="accoutCheckbox"
-					>Account
-					<input type="checkbox" bind:checked={showProfile} id="viewedCheckbox" />
-				</label>
-			</li>
-			<li>
-				<!-- Message Box  -->
-				<label for="messageBox"
-					>Message Box
-					<input type="checkbox" bind:checked={showMessageBox} />
-				</label>
-			</li>
-			<li>
-				<label for="foodFinder"
-					>Food link
-					<input type="checkbox" bind:checked={showFood} />
-				</label>
-			</li>
-		</ul>
-	</section>
+	{#if profile.is_admin}
+		<section class="whatsUp">
+			<ul>
+				<li>
+					<!-- profile Data  -->
+					<label for="accoutCheckbox"
+						>Account
+						<input type="checkbox" bind:checked={showProfile} id="viewedCheckbox" />
+					</label>
+				</li>
+				<li>
+					<!-- Message Box  -->
+					<label for="messageBox"
+						>Message Box
+						<input type="checkbox" bind:checked={showMessageBox} />
+					</label>
+				</li>
+				<li>
+					<label for="foodFinder"
+						>Food link
+						<input type="checkbox" bind:checked={showFood} />
+					</label>
+				</li>
+			</ul>
+		</section>
 
-	<section id="accountBox">
-		{#if showProfile}
-			<form
-				class="classicForm"
-				method="post"
-				action="?/update"
-				use:enhance={handleSubmit}
-				bind:this={profileForm}
-			>
-				<Avatar
-					{supabase}
-					bind:url={avatarUrl}
-					size={10}
-					on:upload={() => {
-						profileForm.requestSubmit()
-					}}
-				/>
+		<section id="accountBox">
+			{#if showProfile}
+				<form
+					class="classicForm"
+					method="post"
+					action="?/update"
+					use:enhance={handleSubmit}
+					bind:this={profileForm}
+				>
+					<Avatar
+						{supabase}
+						bind:url={avatarUrl}
+						size={10}
+						on:upload={() => {
+							profileForm.requestSubmit()
+						}}
+					/>
 
-				<label for="email"
-					>Email
-					<input id="email" type="text" value={session.user.email} disabled />
-				</label>
+					<label for="email"
+						>Email
+						<input id="email" type="text" value={session.user.email} disabled />
+					</label>
 
-				<label for="fullName"
-					>Full Name
-					<input id="fullName" name="fullName" type="text" value={form?.fullName ?? fullName} />
-				</label>
+					<label for="fullName"
+						>Full Name
+						<input id="fullName" name="fullName" type="text" value={form?.fullName ?? fullName} />
+					</label>
 
-				<label for="username"
-					>Username
-					<input id="username" name="username" type="text" value={form?.username ?? username} />
-				</label>
+					<label for="username"
+						>Username
+						<input id="username" name="username" type="text" value={form?.username ?? username} />
+					</label>
 
-				<label for="contact"
-					>Contact
-					<input id="contact" name="contact" type="text" value={form?.contact ?? contact} />
-				</label>
+					<label for="contact"
+						>Contact
+						<input id="contact" name="contact" type="text" value={form?.contact ?? contact} />
+					</label>
 
-				<div class="window-content">
-					<button
-						class="button-Ghost"
-						type="submit"
-						value={loading ? 'Loading...' : 'Update'}
-						disabled={loading}>Update</button
-					>
-				</div>
-			</form>
-		{/if}
-	</section>
-
-	<section id="messageBox">
-		{#if showMessageBox}
-			<article class="filter-options">
-				<label>
-					Show Viewed Messages
-					<input type="checkbox" bind:checked={showViewed} />
-				</label>
-			</article>
-
-			<article class="summary">
-				<table class="desktop-table">
-					<thead>
-						<tr>
-							<th>Full Name</th>
-							<th>Contact</th>
-							<th>Submit on</th>
-							<th>Viewed</th>
-							<th>Look</th>
-						</tr>
-					</thead>
-					<tbody>
-						{#each newMessage.filter((message) => message.viewed === showViewed) as message}
-							<tr>
-								<td>{message.full_name}</td>
-								<td>{message.contact_point}</td>
-								<td>{formatDate(message.submitted_at)}</td>
-								<td>{message.viewed ? 'Yes' : 'No'}</td>
-								<td
-									><button class="ripple-btn" on:click={() => selectMessage(message)}>View</button
-									></td
-								>
-							</tr>
-						{/each}
-					</tbody>
-				</table>
-
-				{#each newMessage.filter((message) => message.viewed === showViewed) as message}
-					<!-- Mobile Stacked Layout -->
-					<div class="mobile-cards">
-						<div class="card">
-							<p><strong>Full Name:</strong> {message.full_name}</p>
-							<p><strong>Email:</strong> {message.email}</p>
-							<p><strong>Submitted At:</strong> <br /> {formatDate(message.submitted_at)}</p>
-							<button class="ripple-btn" on:click={() => selectMessage(message)}>View</button>
-						</div>
+					<div class="window-content">
+						<button
+							class="button-Ghost"
+							type="submit"
+							value={loading ? 'Loading...' : 'Update'}
+							disabled={loading}>Update</button
+						>
 					</div>
-				{/each}
-			</article>
-
-			{#if selectedMessage}
-				<article id="messageDetail" class="detail-grid">
-					{#if selectedMessage.full_name}
-						<p><strong>Full Name:</strong> {selectedMessage.full_name}</p>
-					{/if}
-
-					{#if selectedMessage.contact_point}
-						<p><strong>Contact:</strong> {selectedMessage.contact_point}</p>
-					{/if}
-
-					{#if selectedMessage.message}
-						<p><strong>Message:</strong> {selectedMessage.message}</p>
-					{/if}
-
-					{#if selectedMessage.viewed}
-						<p><strong>Viewed:</strong> {selectedMessage.viewed ? 'Yes' : 'No'}</p>
-					{/if}
-
-					{#if selectedMessage.submitted_at}
-						<p><strong>Submitted At:</strong> {formatDate(selectedMessage.submitted_at)}</p>
-					{/if}
-
-					<!-- Has been viewed checkbox -->
-
-					<form action="?/updateMessageViewed" method="post">
-						<label>
-							Has been viewed:
-							<input type="checkbox" name="viewed" bind:checked={selectedMessage.viewed} />
-						</label>
-						<input type="hidden" name="messageId" value={selectedMessage.id} />
-						<button class="button-Ghost" type="submit">Update</button>
-					</form>
-
-					<!-- Close button (or another event that closes the message) -->
-					<button on:click={() => (selectedMessage = null)} class="ripple-btn">Close Message</button
-					>
-				</article>
+				</form>
 			{/if}
-		{/if}
-	</section>
+		</section>
 
-	<section class="dinner-hunt">
-		{#if showFood}
-			<p>Let's find out what we are eating today!</p>
-			<button class="ripple-btn" on:click={handleFood}>🦖</button>
-		{/if}
-	</section>
+		<section id="messageBox">
+			{#if showMessageBox}
+				<article class="filter-options">
+					<label>
+						Show Viewed Messages
+						<input type="checkbox" bind:checked={showViewed} />
+					</label>
+				</article>
 
-	<form method="post" action="?/signout" use:enhance={handleSignOut}>
-		<button class="button-Skew" disabled={loading}> Sign Out</button>
-	</form>
+				<article class="summary">
+					<table class="desktop-table">
+						<thead>
+							<tr>
+								<th>Full Name</th>
+								<th>Contact</th>
+								<th>Submit on</th>
+								<th>Viewed</th>
+								<th>Look</th>
+							</tr>
+						</thead>
+						<tbody>
+							{#each newMessage.filter((message) => message.viewed === showViewed) as message}
+								<tr>
+									<td>{message.full_name}</td>
+									<td>{message.contact_point}</td>
+									<td>{formatDate(message.submitted_at)}</td>
+									<td>{message.viewed ? 'Yes' : 'No'}</td>
+									<td
+										><button class="ripple-btn" on:click={() => selectMessage(message)}>View</button
+										></td
+									>
+								</tr>
+							{/each}
+						</tbody>
+					</table>
+
+					{#each newMessage.filter((message) => message.viewed === showViewed) as message}
+						<!-- Mobile Stacked Layout -->
+						<div class="mobile-cards">
+							<div class="card">
+								<p><strong>Full Name:</strong> {message.full_name}</p>
+								<p><strong>Email:</strong> {message.email}</p>
+								<p><strong>Submitted At:</strong> <br /> {formatDate(message.submitted_at)}</p>
+								<button class="ripple-btn" on:click={() => selectMessage(message)}>View</button>
+							</div>
+						</div>
+					{/each}
+				</article>
+
+				{#if selectedMessage}
+					<article id="messageDetail" class="detail-grid">
+						{#if selectedMessage.full_name}
+							<p><strong>Full Name:</strong> {selectedMessage.full_name}</p>
+						{/if}
+
+						{#if selectedMessage.contact_point}
+							<p><strong>Contact:</strong> {selectedMessage.contact_point}</p>
+						{/if}
+
+						{#if selectedMessage.message}
+							<p><strong>Message:</strong> {selectedMessage.message}</p>
+						{/if}
+
+						{#if selectedMessage.viewed}
+							<p><strong>Viewed:</strong> {selectedMessage.viewed ? 'Yes' : 'No'}</p>
+						{/if}
+
+						{#if selectedMessage.submitted_at}
+							<p><strong>Submitted At:</strong> {formatDate(selectedMessage.submitted_at)}</p>
+						{/if}
+
+						<!-- Has been viewed checkbox -->
+
+						<form action="?/updateMessageViewed" method="post">
+							<label>
+								Has been viewed:
+								<input type="checkbox" name="viewed" bind:checked={selectedMessage.viewed} />
+							</label>
+							<input type="hidden" name="messageId" value={selectedMessage.id} />
+							<button class="button-Ghost" type="submit">Update</button>
+						</form>
+
+						<!-- Close button (or another event that closes the message) -->
+						<button on:click={() => (selectedMessage = null)} class="ripple-btn"
+							>Close Message</button
+						>
+					</article>
+				{/if}
+			{/if}
+		</section>
+
+		<section class="dinner-hunt">
+			{#if showFood}
+				<p>Let's find out what we are eating today!</p>
+				<button class="ripple-btn" on:click={handleFood}>🦖</button>
+			{/if}
+		</section>
+
+		<form method="post" action="?/signout" use:enhance={handleSignOut}>
+			<button class="button-Skew" disabled={loading}> Sign Out</button>
+		</form>
+	{:else}
+		<h1>Thank you for testing, I appreciate your help. I hope you have a great week.</h1>
+	{/if}
 </main>
 
 <!-- svelte-ignore css-unused-selector -->
