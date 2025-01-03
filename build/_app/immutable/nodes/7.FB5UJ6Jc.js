@@ -1,0 +1,1 @@
+import"../chunks/disclose-version.Bg9kRutz.js";import"../chunks/legacy.CtaTdtmd.js";import{a as r,t}from"../chunks/template.C_ApRhS8.js";var a=t("<p>Login error</p>");function i(o){var p=a();r(o,p)}export{i as component};
