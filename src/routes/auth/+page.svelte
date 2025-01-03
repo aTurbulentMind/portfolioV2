@@ -20,35 +20,38 @@
 	<title>User Management</title>
 </svelte:head>
 
-<form class="row flex flex-center" method="POST" use:enhance={handleSubmit}>
-	<div class="col-6 form-widget">
-		<h1 class="header">Supabase + SvelteKit</h1>
-		<p class="description">Sign in via magic link with your email below</p>
-		{#if form?.message !== undefined}
-			<div class="success {form?.success ? '' : 'fail'}">
+<main>
+	<form class="classicForm" method="POST" use:enhance={handleSubmit}>
+		<label for="introMessage" class="input-group">
+			<p>Sign in via magic link with your email below</p>
+			{#if form?.message !== undefined}
 				{form?.message}
-			</div>
-		{/if}
-		<div>
-			<label for="email">Email address</label>
+			{/if}
+		</label>
+		<label class="input-group" for="email"
+			>Email address
 			<input
 				id="email"
 				name="email"
-				class="inputField"
 				type="email"
 				placeholder="Your email"
 				value={form?.email ?? ''}
-			/>
-		</div>
+			/></label
+		>
 		{#if form?.errors?.email}
-			<span class="flex items-center text-sm error">
+			<span>
 				{form?.errors?.email}
 			</span>
 		{/if}
-		<div>
-			<button class="button primary block">
-				{loading ? 'Loading' : 'Send magic link'}
-			</button>
-		</div>
-	</div>
-</form>
+
+		<button class="ripple-btn">
+			{loading ? 'Loading' : 'Send link'}
+		</button>
+	</form>
+</main>
+
+<style>
+	.classicForm {
+		margin: 5% auto;
+	}
+</style>
