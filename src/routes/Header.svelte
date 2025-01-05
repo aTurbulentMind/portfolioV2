@@ -2,6 +2,8 @@
 	import { goto } from '$app/navigation';
 	import Logo_Svg from '$lib/svg/logo.svelte';
 
+	let page = $state({ url: { pathname: '' } });
+
 	let isMenuOpen = $state(false);
 	let current = $state(0);
 	// let isDropdownOpen = false
@@ -24,6 +26,8 @@
 <div class="navbar">
 	<nav class:open={isMenuOpen}>
 		<ul>
+			<li><p>Currently at {page.url.pathname.replace(/^\/+/, '')} page</p></li>
+
 			<!-- <li>
 				<button
 					class="dropdown-toggle"

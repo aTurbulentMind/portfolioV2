@@ -3,6 +3,39 @@
 	import ArtCount from '$lib/img/artCountV4.png';
 	import RandReci from '$lib/img/food.png';
 	import { enhance } from '$app/forms';
+	import { onDestroy } from 'svelte';
+
+	// Rolling group of words
+	let entryRoller = [
+		'Create',
+		'Innovate',
+		'Connect',
+		'Share',
+		'Explore',
+		'Learn',
+		'Grow',
+		'Inspire',
+		'Lead',
+		'Design',
+		'Build',
+		'Play',
+		'Dream',
+		'Achieve',
+		'Express',
+		'Live'
+	];
+
+	let currentIndex = 0;
+	let currentPhrase = $state(entryRoller[currentIndex]);
+
+	const interval = setInterval(() => {
+		currentIndex = (currentIndex + 1) % entryRoller.length;
+		currentPhrase = entryRoller[currentIndex];
+	}, 2000);
+
+	onDestroy(() => {
+		clearInterval(interval);
+	});
 
 	let formSubmitted = $state(false);
 
@@ -32,6 +65,13 @@
 
 <header id="hero-banner" class="hero-banner">
 	<h1 class="banner-text">Lantern Light Development</h1>
+
+	<section class="banner-phrase glass-Box">
+		<p>
+			<span class="phrase">{currentPhrase} </span>
+		</p>
+		<p>the way YOU want</p>
+	</section>
 
 	<!-- form to submit a message -->
 	<section class="banner-form">
