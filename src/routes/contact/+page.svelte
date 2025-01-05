@@ -83,6 +83,11 @@
 
 <!--svelte-ignore css_unused_selector -->
 <style>
+	@media screen and (min-width: 1024px) {
+		p {
+			margin: var(--size-2);
+		}
+	}
 	/* Reflective Follow  */
 	.follow {
 		display: flex;

@@ -67,8 +67,8 @@
 	<h1 class="banner-text">Lantern Light Development</h1>
 
 	<section class="banner-phrase glass-Box">
-		<p>
-			<span class="phrase">{currentPhrase} </span>
+		<p class="phrase">
+			<span>{currentPhrase} </span>
 		</p>
 		<p>the way YOU want</p>
 	</section>
@@ -231,6 +231,25 @@
 		animation: slideUp 2s infinite;
 		padding: 0;
 		margin: 0;
+	}
+
+	@keyframes slideUp {
+		0% {
+			transform: translateY(100%);
+			opacity: 0;
+		}
+		10% {
+			transform: translateY(0);
+			opacity: 1;
+		}
+		90% {
+			transform: translateY(0);
+			opacity: 1;
+		}
+		100% {
+			transform: translateY(-100%);
+			opacity: 0;
+		}
 	}
 
 	.banner-form {

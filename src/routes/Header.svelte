@@ -26,7 +26,7 @@
 <div class="navbar">
 	<nav class:open={isMenuOpen}>
 		<ul>
-			<li><p>Currently at {page.url.pathname.replace(/^\/+/, '')} page</p></li>
+			<!-- <li><p>Currently at {page.url.pathname.replace(/^\/+/, '')} page</p></li> -->
 
 			<!-- <li>
 				<button
