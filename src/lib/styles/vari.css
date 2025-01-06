@@ -16,13 +16,13 @@
 --space-Side:0 8%;
 --space-Sm:1vh 5vw;
 --space-Med:5vh 10vw;
---space-Lg:7vh 15vw;
+--space-Lg:15vh 10vw;
 
 --space-Qtr:5vh 5vw;
 --space-Half:15% 8%;
 --space-Full: 20% 15%;
 --space-Full-X: 15vh 5vw 5vh 10vw;
---space-Lg: 20%;
+
 --space-Auto:15% auto;
 
 /* --space-Side: 0 cqw(8%); */
