@@ -25,9 +25,9 @@
 </header>
 
 <main>
-	<img class="face" src={ItsMe} alt="its my face" />
+	<h1>Joel R</h1>
 
-	<h1>Joel Rivers</h1>
+	<img class="face" src={ItsMe} alt="its my face" />
 
 	<p>
 		I picked up website development a few years ago. While working in a retail store. I spent down
@@ -54,6 +54,9 @@
 
 	/* Tablet Size */
 	@media (min-width: 768px) {
+		h1 {
+			margin-bottom: -10vh;
+		}
 		.face {
 			width: 35%;
 			margin: 0 30%;

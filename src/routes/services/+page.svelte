@@ -164,4 +164,13 @@
 			margin: 1%;
 		}
 	}
+
+	/* Desktop Size */
+	@media only screen and (min-width: 1440px) {
+		.tier {
+			& h3 {
+				margin: var(--space-Sm);
+			}
+		}
+	}
 </style>

@@ -14,7 +14,7 @@
 	<nav>
 		<a href="/">Home</a>
 	</nav>
-	<button onclick={logout}>Logout</button>
+	<button class="button-Ghost" onclick={logout}>Logout</button>
 </footer>
 <main>
 	{@render children()}
@@ -29,7 +29,15 @@
 		position: fixed;
 		bottom: 0;
 		width: 100vw;
-		height: 10vh;
+		height: 5vh;
 		padding: var(--space-Sm);
+
+		& a {
+			color: var(--txt-1);
+		}
+
+		@media screen and (min-width: 1024px) {
+			height: 10vh;
+		}
 	}
 </style>

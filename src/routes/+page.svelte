@@ -123,7 +123,7 @@
 		help to those who need it most. My goal is simple: to give you the tools you need to succeed, no
 		matter your starting point.
 	</p>
-	<a href="/contact/" class="button-Ghost">Reach out</a>
+	<a href="/contact/" class="contact button-Ghost">Reach out</a>
 	<ul class="marg_Also">
 		Hours of Operation:
 		<li>Monday-Friday: 7:30am-6pm (Pst)</li>
@@ -258,8 +258,12 @@
 		}
 	}
 
-	.button-Ghost {
+	.contact {
 		margin: var(--space-Med);
+
+		@media screen and (min-width: 768px) {
+			margin: var(--space-Side);
+		}
 	}
 
 	.glass-Box-2 {

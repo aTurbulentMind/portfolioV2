@@ -30,9 +30,11 @@
 	}
 </script>
 
-<h1>User: {user?.email}</h1>
-
 <main>
+	<header class="head_Line">
+		<h1>User: {user?.email}</h1>
+	</header>
+
 	<section class="whatsUp">
 		<ul>
 			<li>
@@ -60,7 +62,7 @@
 							<th>Full Name</th>
 							<th>Contact</th>
 							<th>Submit on</th>
-							<th>Viewed</th>
+							<!-- <th>Viewed</th> -->
 							<th>Look</th>
 						</tr>
 					</thead>
@@ -71,9 +73,9 @@
 								<td>{message.full_name}</td>
 								<!-- <td>{message.message}</td> -->
 								<td>{formatDate(message.submitted_at)}</td>
-								<td>{message.viewed}</td>
+								<!-- <td>{message.viewed}</td> -->
 								<td
-									><button class="ripple-btn" onclick={() => selectMessage(message)}>View</button>
+									><button class="button-Ghost" onclick={() => selectMessage(message)}>View</button>
 								</td>
 							</tr>
 						{/each}
@@ -88,8 +90,8 @@
 							<p>{message.full_name}</p>
 							<!-- <p>{message.message}</p> -->
 							<p>{formatDate(message.submitted_at)}</p>
-							<p>{message.viewed}</p>
-							<button class="ripple-btn" onclick={() => selectMessage(message)}>View</button>
+							<!-- <p>{message.viewed}</p> -->
+							<button class="button-Ghost" onclick={() => selectMessage(message)}>View</button>
 						</div>
 					</div>
 				{/each}
@@ -123,7 +125,9 @@
 					{/if}
 
 					<!-- Close button (or another event that closes the message)-->
-					<button onclick={() => (selectedMessage = null)} class="ripple-btn">Close Message</button>
+					<button onclick={() => (selectedMessage = null)} class="button-Ghost"
+						>Close Message</button
+					>
 				</article>
 			{/if}
 		{/if}
@@ -132,13 +136,19 @@
 	<section class="dinner-hunt">
 		{#if showFood}
 			<p>Let's find out what we are eating today!</p>
-			<button class="ripple-btn" onclick={handleFood}>🦖</button>
+			<button class="button-Ghost" onclick={handleFood}>🦖</button>
 		{/if}
 	</section>
 </main>
 
 <!--svelte-ignore css_unused_selector -->
 <style>
+	h1 {
+		text-align: center;
+		margin: var(--size-4);
+		width: 100vw;
+	}
+
 	.whatsUp {
 		display: flex;
 		/* justify-content: center; */
@@ -212,10 +222,16 @@
 		display: block;
 		align-items: center;
 		justify-content: center;
-		background-color: var(--bg-1);
+		background-color: var(--bg-2);
 		color: var(--txt-1);
-		width: 80vw;
-		margin: var(--space-Full);
+		width: fit-content;
+		padding: var(--size-3);
+		margin: var(--size-6);
+		border: 2px solid var(--error);
+
+		& p {
+			margin: var(--size-1);
+		}
 
 		@media screen and (min-width: 768px) {
 			display: none;
@@ -234,7 +250,6 @@
 		background: var(--bg-1);
 		color: var(--error);
 		border: 2px solid var(--error);
-		border-radius: 8px;
 
 		& div {
 			padding: 0.5rem 0;
