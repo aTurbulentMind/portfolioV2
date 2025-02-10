@@ -97,7 +97,7 @@
 					>
 				</button>
 			</li>
-
+			<!-- 
 			<li>
 				<button onclick={() => (isMenuOpen = false)} onkeydown={() => (isMenuOpen = false)}>
 					<a
@@ -109,7 +109,7 @@
 						href="/auth">Login</a
 					>
 				</button>
-			</li>
+			</li> -->
 
 			<li>
 				<button onclick={() => (isMenuOpen = false)} onkeydown={() => (isMenuOpen = false)}>

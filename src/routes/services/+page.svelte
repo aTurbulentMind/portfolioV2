@@ -21,12 +21,13 @@
 		<h2>Pricing Tiers</h2>
 		<p>
 			Every project is unique, and pricing varies based on scope and complexity. My goal is to
-			deliver exceptional results while keeping costs fair and transparent.
+			deliver exceptional results while keeping costs fair and equitable. All projects come with a
+			free year of support to ensure your website stays up and running.
 		</p>
 
 		<article class="price-box">
 			<div class="tier">
-				<h3>Simple</h3>
+				<h3>Simple 500 - 1000</h3>
 				<p>
 					Perfect for those who know exactly what they need. You provide the vision, including the
 					color scheme, features, and design preferences, and I bring it to life with a static or
@@ -35,18 +36,20 @@
 			</div>
 
 			<div class="tier">
-				<h3>Moderate</h3>
+				<h3>Moderate $1000 - $3000</h3>
 				<p>
 					Ideal if you have a general idea but need some guidance to shape your vision. Together,
-					we’ll refine your ideas into a cohesive, functional website.
+					we’ll refine your ideas into a cohesive, functional website. This is going to be more than
+					just a static page.
 				</p>
 			</div>
 
 			<div class="tier">
-				<h3>"I’ll Handle It"</h3>
+				<h3>"I’ll Handle It" $4000+</h3>
 				<p>
 					For when you have a jumble of brilliant ideas but need someone to make them happen. We’ll
-					collaborate to turn your concepts into a polished, professional site.
+					collaborate to turn your concepts into a polished, professional site. This can be complex
+					and include E-commerce or CMS services.
 				</p>
 			</div>
 		</article>

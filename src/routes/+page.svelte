@@ -119,8 +119,8 @@
 
 	<p>
 		There are so many options when it comes to web development, and it can feel overwhelming. I'm
-		here to make it easier. I’m not here to empty your budget—I believe in offering fair, accessible
-		help to those who need it most. My goal is simple: to give you the tools you need to succeed, no
+		here to make it easier. I believe in offering fair, accessible pricing, and I'm committed to
+		support to those who need it. My goal is simple: to give you the tools you need to succeed, no
 		matter your starting point.
 	</p>
 	<a href="/contact/" class="contact button-Ghost">Reach out</a>
@@ -134,8 +134,8 @@
 <section class="glass-Box-2">
 	<h2>About Me</h2>
 	<p>
-		I’ve spent over six years studying and building websites, including a few years working at a
-		software company where I learned the ins and outs of full-stack web development. Now, I’m
+		I’ve spent over six years studying and building websites, including a few years where i
+		continued at a software company where I learned the layers of project development. Now, I’m
 		focused on putting my skills to work for people who want to make a difference.
 	</p>
 </section>
@@ -144,8 +144,8 @@
 	<h2>Why would I do this?</h2>
 	<p>
 		I believe in helping people who are working to create a better world. Nonprofits and small
-		companies often operate on tight budgets and big dreams—I’m here to be a partner in making those
-		goals achievable.
+		companies often operate on tight constraints to achieve big dreams—I’m here to be an asset in
+		reaching those goals.
 	</p>
 </section>
 
